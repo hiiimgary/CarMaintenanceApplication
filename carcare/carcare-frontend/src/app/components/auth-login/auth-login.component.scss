@@ -41,7 +41,20 @@ main{
             font-weight: normal;
             font-size: $header;
             margin-top: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+        }
+
+        .message{
+            height: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            span{
+                font-size: $paragraph;
+                color: $error;
+                text-align: right;
+                padding-right: 15px;
+            }
         }
 
         .form-group{

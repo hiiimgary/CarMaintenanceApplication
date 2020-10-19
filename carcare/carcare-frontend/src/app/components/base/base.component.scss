@@ -1,0 +1,34 @@
+@import '../../theme.scss';
+
+main{
+    position: relative;
+    height: 100%;
+    section{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 70px;
+        padding: 30px 10px 0 10px;
+
+        background-color: $background-color;
+    }
+
+    nav{
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: $tile-color;
+        height: 70px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        div{
+            .active{
+                fill: $active-nav-btn;
+            }
+        }
+    }
+}

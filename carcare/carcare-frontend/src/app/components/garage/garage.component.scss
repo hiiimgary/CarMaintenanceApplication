@@ -1,0 +1,17 @@
+@import "../../theme.scss";
+
+main{
+    position: relative;
+    height: 100%;
+
+    h2{
+        font-size: $header;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+    .add{
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+    }
+}

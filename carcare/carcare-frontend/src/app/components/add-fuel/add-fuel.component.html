@@ -1,0 +1,109 @@
+
+
+<main>
+    <div class="header">
+        <h2>Refill</h2>
+        <p>{{ car.license_plate }}</p>
+    </div>
+
+    <section class="add-fuel">
+        <h2>New Entry</h2>
+        <form [formGroup]="addFuel" (ngSubmit)="save()">
+            <div class="form-group">
+                <div class="input">
+                    <label for="date">DATE</label>
+                    <input type="text" class="input-field" formControlName="date" name="date">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="date.invalid && date.touched"><sup>*</sup>Date is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="station">GAS STATION</label>
+                    <input type="text" class="input-field" formControlName="station" name="station">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="station.invalid && station.touched"><sup>*</sup>Gas station must be 3 letters</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="type">FUEL TYPE</label>
+                    <select class="input-field" (change)="changeFuelType($event)" formControlName="type" name="type">
+                        <option *ngFor="let fuel of fueltypeOptions" [ngValue]="fuel" >{{ fuel }}</option>
+                    </select>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="type.invalid && type.touched"><sup>*</sup>Fuel type required!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="amount">AMOUNT</label>
+                    <div class="input-field">
+                        <input type="number"  formControlName="amount" name="amount">
+                        <p>Litre</p>
+                    </div>
+
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="amount.invalid && amount.touched"><sup>*</sup>Amount is required!</span>
+                </div>
+            </div>
+
+            <div class="price">
+                <div class="form-group">
+                    <div class="input">
+                        <label for="price">PRICE</label>
+                        <div class="input-field">
+                            <input type="number"  formControlName="price" name="price">
+                            <select class="input-field" (change)="changeCurrency($event)"  formControlName="currency" name="currency">
+                                <option *ngFor="let currency of currencyOptions" [ngValue]="currency" >{{ currency }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="msg">
+                        <span *ngIf="price.invalid && price.touched"><sup>*</sup>Price is required!</span>
+                        <span *ngIf="currency.invalid && currency.touched"><sup>*</sup>Choose Currency</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="mileage">MILEAGE</label>
+                    <div class="input-field">
+                        <input type="number"  formControlName="mileage" name="mileage">
+                        <p>km</p>
+                    </div>
+
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="mileage.invalid && mileage.touched"><sup>*</sup>Mileage is required!</span>
+                </div>
+            </div>
+
+            <div class="btns">
+                <button id="read-bill"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0V0z" fill="none"/><circle cx="12" cy="12" r="3"/><path d="M20 4h-3.17l-1.24-1.35c-.37-.41-.91-.65-1.47-.65H9.88c-.56 0-1.1.24-1.48.65L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                    <p>Read bill</p>
+                </button>
+                <button id="save" type="submit" [disabled]="addFuel.invalid">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <svg (click)="navigateTo('service/fuel')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+
+</main>

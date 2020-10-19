@@ -1,6 +1,9 @@
 <main>
     <section id="login">
         <h2>Login</h2>
+        <div class="message">
+            <span>{{ message }}</span>
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form-group">
                 <label for="username">Username</label>
