@@ -1,0 +1,130 @@
+@import '../../theme.scss';
+
+main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .header{
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        top: 0;
+        right: 0;
+        left: 0;
+        h2{
+            font-size: $header;
+            font-weight: normal;
+        }
+        p{
+            font-family: "Montserrat", sans-serif;
+            font-size: $header;
+        }
+    }
+
+    section{
+        background-color: $tile-color;
+        border-radius: 5px;
+        width: 100%;
+
+        h2{
+            font-size: $header;
+            font-weight: normal;
+            text-align: center;
+            padding-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group{
+
+            label, p, input, select{
+                font-size: $title;
+            }
+
+            .msg{
+                
+                padding-right: 10px;
+                text-align: right;
+                height: 35px;
+                span, sup{
+                    color: $error;
+                    font-size: $paragraph;
+                }
+            }
+
+            .input{
+                display: flex;
+                flex-direction: row;
+                padding-right: 10px;
+                padding-left: 10px;
+                justify-content: space-between;
+                
+                div, .input-field{
+                    display: flex;
+                    width: 200px;
+                }
+                input, select{
+                    background: none;
+                    border: 1px solid white;
+                    border-radius: 5px;
+                    outline: none;
+                }
+
+                select option {
+                    background-color: $tile-color;
+                    margin-top: 10px;
+                    text-align: center;
+                }
+
+                input[type="number"]{
+                    width: 120px;
+                }
+
+                div{
+                    display: flex;
+                    justify-content: space-between;
+                    text-align: center;
+                    select {
+                        margin-left: 10px;
+                    }
+                }
+
+            }
+        }
+
+        .btns{
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: 20px;
+            button{
+                background-color: $secondary-color;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                width: 140px;
+                height: 50px;
+                font-size: $title;
+
+
+            }
+            button[disabled]{
+                background-color: $properties-color;
+            }
+
+            #read-bill{
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+        }
+    }
+
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
+    }
+}

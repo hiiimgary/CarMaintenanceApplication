@@ -12,6 +12,14 @@ import { BaseComponent } from './components/base/base.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Globals } from './globals';
+import { GarageComponent } from './components/garage/garage.component';
+import { ServiceComponent } from './components/service/service.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { CarComponent } from './components/car/car.component';
+import { RefillsComponent } from './components/refills/refills.component';
+import { FuelComponent } from './components/fuel/fuel.component';
+import { AddFuelComponent } from './components/add-fuel/add-fuel.component';
+import { AddCarComponent } from './components/add-car/add-car.component';
 
 
 @NgModule({
@@ -20,7 +28,15 @@ import { Globals } from './globals';
     AuthLoginComponent,
     AuthRegisterComponent,
     BaseComponent,
-    HomeComponent
+    HomeComponent,
+    GarageComponent,
+    ServiceComponent,
+    CalendarComponent,
+    CarComponent,
+    RefillsComponent,
+    FuelComponent,
+    AddFuelComponent,
+    AddCarComponent
   ],
   imports: [
     BrowserModule,

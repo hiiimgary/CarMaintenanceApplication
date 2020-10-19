@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,8 +11,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AuthLoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  message: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -25,9 +27,14 @@ export class AuthLoginComponent implements OnInit {
   }
 
   login(){
+    this.message = '';
     const login = this.loginForm.value;
     this.authService.login(login).subscribe(result => {
-      console.log(result);
+      const token = result as any;
+      localStorage.setItem('access_token', token.access_token); 
+      this.router.navigate(['user/home']);
+    }, error => {
+      this.message = "Invalid Credentials!";
     });
     
   }

@@ -18,6 +18,7 @@ main{
     section{
         display: flex;
         justify-content: space-around;
+        flex-wrap: wrap;
         div{
             background-color: $tile-color;
             width: 160px;
@@ -26,6 +27,7 @@ main{
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-bottom: 20px;
             h2{
                 font-size: $title;
                 font-weight: normal;
