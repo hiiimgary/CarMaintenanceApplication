@@ -1,12 +1,13 @@
 export interface Car {
-    id: string;
+    _id: string;
     default: boolean,
     license_plate: string;
     brand: string;
     car_model: string;
+    fuel_type: string;
     vin: string;
     release_year: string;
-    refueling: Fuel[];
+    refueling?: Fuel[];
 }
 
 export interface Fuel {

@@ -10,7 +10,7 @@ import { AuthLoginComponent } from './components/auth-login/auth-login.component
 import { AuthRegisterComponent } from './components/auth-register/auth-register.component';
 import { BaseComponent } from './components/base/base.component';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Globals } from './globals';
 import { GarageComponent } from './components/garage/garage.component';
 import { ServiceComponent } from './components/service/service.component';
@@ -20,6 +20,8 @@ import { RefillsComponent } from './components/refills/refills.component';
 import { FuelComponent } from './components/fuel/fuel.component';
 import { AddFuelComponent } from './components/add-fuel/add-fuel.component';
 import { AddCarComponent } from './components/add-car/add-car.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AuthGuard } from './services/auth.guard';
 
 
 @NgModule({
@@ -45,7 +47,12 @@ import { AddCarComponent } from './components/add-car/add-car.component';
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [Globals],
+  providers: [Globals, AuthGuard,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

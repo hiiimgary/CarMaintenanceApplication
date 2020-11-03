@@ -1,6 +1,7 @@
 <main>
     <section id="registration">
         <h2>Registration</h2>
+        <span class="response">{{response}}</span>
         <form [formGroup]="regForm" (ngSubmit)="register()">
             <div class="form-group">
                 <label for="username">Username</label>

@@ -27,6 +27,19 @@
 
             <div class="form-group">
                 <div class="input">
+                    <label for="fuel_type">FUEL TYPE</label>
+                    <select class="input-field" (change)="changeFuelType($event)" formControlName="fuel_type" name="fuel_type">
+                        <option *ngFor="let fuel of fueltypeOptions" [ngValue]="fuel" >{{ fuel }}</option>
+                    </select>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="fuel_type.invalid && fuel_type.touched"><sup>*</sup>Fuel type required!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
                     <label for="license_plate">LICENSE PLATE</label>
                     <input type="text" class="input-field" formControlName="license_plate" name="license_plate">
                 </div>

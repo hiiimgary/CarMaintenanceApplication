@@ -9,7 +9,7 @@ import { CarService } from 'src/app/services/car.service';
   styleUrls: ['./add-car.component.scss']
 })
 export class AddCarComponent implements OnInit {
-
+  fueltypeOptions = ['gasoline', 'diesel', 'electric'];
   addCar: FormGroup;
   constructor(private fb: FormBuilder, private router: Router, private carsService: CarService) { }
 
@@ -23,6 +23,9 @@ export class AddCarComponent implements OnInit {
           Validators.required
         ]],
         car_model: ['',[
+          Validators.required
+        ]],
+        fuel_type: ['', [
           Validators.required
         ]],
         vin: ['',[
@@ -48,6 +51,15 @@ export class AddCarComponent implements OnInit {
 
   navigateTo(url: string){
     this.router.navigate(['user/' + url])
+  }
+
+  changeFuelType(e){
+    var str = e.target.value.split(" ");
+    this.fuel_type.setValue(str[1]);   
+  }
+
+  get fuel_type(){
+    return this.addCar.get('fuel_type');
   }
 
   get license_plate(){

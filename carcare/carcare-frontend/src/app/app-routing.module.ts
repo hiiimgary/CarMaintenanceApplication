@@ -10,12 +10,13 @@ import { GarageComponent } from './components/garage/garage.component';
 import { HomeComponent } from './components/home/home.component';
 import { RefillsComponent } from './components/refills/refills.component';
 import { ServiceComponent } from './components/service/service.component';
+import { AuthGuard } from './services/auth.guard';
 
 
 const routes: Routes = [
   {path: '', component: AuthLoginComponent},
   {path: 'registration', component: AuthRegisterComponent},
-  {path: 'user', component: BaseComponent, 
+  {path: 'user', component: BaseComponent, canActivate: [AuthGuard],
     children: [
       {path: 'home', component: HomeComponent},
       {path: 'garage', component: GarageComponent},

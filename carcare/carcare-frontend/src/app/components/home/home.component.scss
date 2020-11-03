@@ -17,19 +17,28 @@ main{
 
     section{
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        &::after{
+            content: "";
+            flex: auto;
+            flex-basis: 170px;
+        }
         div{
             background-color: $tile-color;
-            width: 160px;
-            height: 160px;
+            width: 170px;
+            height: 170px;
             display: flex;
+            margin-bottom: 15px;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
             h2{
                 font-size: $title;
                 font-weight: normal;
             }
+            
         }
     }
 }

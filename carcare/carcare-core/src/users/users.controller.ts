@@ -14,5 +14,13 @@ export class UsersController {
     @Post('add-car')
     async addCar(@Req() req ,@Body() car: CarDTO){
         const res = await this.userService.addCar(req.user, car);
+        return res;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('add-fuel')
+    async addFuel(@Req() req ,@Body() {car_id, fuel}){
+        const res = await this.userService.addFuel(req.user, car_id, fuel);
+        return res;
     }
 }
