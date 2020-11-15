@@ -15,7 +15,51 @@ main{
         }
     }
 
-    section{
+    .profile-details{
+        background-color: $tile-color;
+        //border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        margin-bottom: 15px;
+        #profile-picture{
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            border-radius: 50px;
+            background-color: $properties-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            p{
+                font-size: $paragraph;
+                text-align: center;
+            }
+            img{
+                height: 100px;
+            }
+        }
+        .properties{
+            padding-left: 10px;
+            .property{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 10px;
+                .name{
+                    //font-family: "Montserrat", sans-serif;
+                    font-size: $paragraph;
+                    color: $primary-darker;
+                    margin-right: 5px;
+                    
+                }
+                .value{
+                    font-size: $paragraph;
+                }
+            }
+        }
+    }
+
+    .menu{
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;

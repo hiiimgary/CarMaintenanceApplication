@@ -17,7 +17,6 @@ export class AuthController {
       const result = await this.authService.login({username, password});
       var user = req.user._doc;
       user.password = '';
-      console.log(user);
       var res = {user: user, access_token: result.access_token};
       return res;
     }

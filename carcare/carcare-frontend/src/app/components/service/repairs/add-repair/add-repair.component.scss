@@ -1,0 +1,168 @@
+@import '../../../../theme.scss';
+
+.add-repair-wrapper{
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    position: relative;
+
+
+    .add-repair{
+        max-height: 90%;
+        overflow-y: scroll;
+
+        h2{
+            font-size: $header;
+            font-weight: normal;
+            text-align: center;
+            padding-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .radio-button{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+            button{
+                background-color: $secondary-color;
+                border: none;
+                outline: none;
+                width: 80px;
+                height: 50px;
+                font-size: $title;
+            }
+            .radio1{
+                border-radius: 5px 0 0 5px;
+            }
+            .radio2{
+                border-radius: 0 5px 5px 0;
+            }
+
+            button[disabled]{
+                background-color: $properties-color;
+            }
+        }
+
+        
+        .form-part{
+            background-color: $tile-color;
+            border-radius: 5px;
+            margin-bottom: 10px;
+
+            .part-header{
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding-left: 10px;
+                padding-right: 10px;
+                p{
+                    font-size: $title;
+                }
+            }
+
+            .form-group{
+
+                label, p, input, select, textarea{
+                    font-size: $title;
+                }
+    
+                .msg{
+                    
+                    padding-right: 10px;
+                    text-align: right;
+                    height: 35px;
+                    span, sup{
+                        color: $error;
+                        font-size: $paragraph;
+                    }
+                }
+
+    
+                .input, .long-input{
+                    display: flex;
+                    
+                    padding-right: 10px;
+                    padding-left: 10px;
+                    
+                    div, .input-field{
+                        display: flex;
+                        width: 200px;
+                    }
+
+                    input, select, textarea{
+                        background: none;
+                        border: 1px solid white;
+                        border-radius: 5px;
+                        outline: none;
+                    }
+    
+                    select option {
+                        background-color: $tile-color;
+                        margin-top: 10px;
+                        text-align: center;
+                    }
+    
+                    input[type="number"], .input-date{
+                        width: 120px;
+                    }
+    
+                    div{
+                        display: flex;
+                        justify-content: space-between;
+                        text-align: center;
+                        select {
+                            margin-left: 10px;
+                        }
+                    }
+    
+                }
+
+                .long-input{
+                    flex-direction: column;
+
+                    textarea{
+                        resize: none;
+                    }
+                }
+
+                .input{
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+            }
+
+        }
+        .part{
+            padding-top: 20px;
+        }
+    }
+    .btns{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: $background-color;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 5px;
+        .back{
+            transform: rotate(180deg);
+            
+        }
+        button{
+            background-color: $secondary-color;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            width: 140px;
+            height: 50px;
+            font-size: $title;
+        }
+        button[disabled]{
+            background-color: $properties-color;
+        }
+    }
+}

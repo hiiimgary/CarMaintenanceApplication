@@ -16,6 +16,10 @@ export class AuthLoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    const user = localStorage.getItem('user');
+    if(localStorage.getItem('user') && localStorage.getItem('access_token') && localStorage.getItem('car')){
+      this.router.navigate(['/user/home']);
+    }
     this.loginForm = this.fb.group({
       username: ['', [
         Validators.required
@@ -34,7 +38,7 @@ export class AuthLoginComponent implements OnInit {
       console.log(result);
       localStorage.setItem('access_token', res.access_token);
       localStorage.setItem('cars', JSON.stringify(res.user.cars));
-      localStorage.setItem('user', JSON.stringify({username: res.user.username, email: res.user.email}));
+      localStorage.setItem('user', JSON.stringify({username: res.user.username, email: res.user.email, profile_picture: res.user.profile_picture}));
       this.router.navigate(['user/home']);
     }, error => {
       this.message = "Invalid Credentials!";
