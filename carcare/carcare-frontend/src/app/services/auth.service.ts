@@ -16,4 +16,8 @@ export class AuthService {
   register(user: {username: string, email: string, password: string}){
     return this._http.post(this._globals.BASE_URL + "auth/registration", user);
   }
+
+  isLoggedin(){
+    return !!localStorage.getItem('access_token');
+  }
 }

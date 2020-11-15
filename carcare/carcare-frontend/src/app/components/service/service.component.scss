@@ -1,37 +1,37 @@
 @import "../../theme.scss";
 
-main{
-    .header{
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-        h2{
-            font-size: $header;
-            font-weight: normal;
-        }
-        p{
-            font-family: "Montserrat", sans-serif;
-            font-size: $header;
-        }
-    }
+// main{
+//     .header{
+//         display: flex;
+//         justify-content: space-between;
+//         margin-bottom: 30px;
+//         h2{
+//             font-size: $header;
+//             font-weight: normal;
+//         }
+//         p{
+//             font-family: "Montserrat", sans-serif;
+//             font-size: $header;
+//         }
+//     }
 
-    section{
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        div{
-            background-color: $tile-color;
-            width: 160px;
-            height: 160px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            h2{
-                font-size: $title;
-                font-weight: normal;
-            }
-        }
-    }
-}
+//     section{
+//         display: flex;
+//         justify-content: space-around;
+//         flex-wrap: wrap;
+//         div{
+//             background-color: $tile-color;
+//             width: 160px;
+//             height: 160px;
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: center;
+//             align-items: center;
+//             margin-bottom: 20px;
+//             h2{
+//                 font-size: $title;
+//                 font-weight: normal;
+//             }
+//         }
+//     }
+// }

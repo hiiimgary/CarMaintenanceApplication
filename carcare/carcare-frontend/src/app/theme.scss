@@ -5,6 +5,7 @@ $secondary-color: #2565E1;
 $secondary-color-light: #538DFE;
 $active-nav-btn: #6297FF;
 $primary-color: #FFFFFF;
+$primary-darker: #9295a5;
 $dark: #000000;
 $error: #d63b3b;
 
@@ -12,3 +13,273 @@ $error: #d63b3b;
 $header: 24px;
 $paragraph: 14px;
 $title: 18px;
+
+
+.elements_wrapper{
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: $tile_color;
+    .header{
+
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 5px;
+        div{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            margin-left: 20px;
+            margin-right: 20px;
+            justify-content: space-between;
+            align-items: center;
+            h2{
+                font-family: 'Montserrat', sans-serif;
+                font-weight: normal;
+                font-size: $title;
+            }
+            p{
+                font-size: $title;
+            }
+        }
+
+    }
+    .properties{
+        background-color: $properties-color;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 0 0 5px 5px;
+        div{
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .property{
+            color: $primary-darker;
+        }
+        .icons{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    }
+}
+
+.list-page{
+    position: relative;
+    height: 100%;
+    .list-page-header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        h2{
+            font-size: $header;
+            font-weight: normal;
+        }
+        p{
+            font-family: "Montserrat", sans-serif;
+            font-size: $header;
+        }
+    }
+
+    #no-data{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
+    }
+
+    .add{
+        position: absolute;
+        bottom: 20px;
+        right: 10px;
+    }
+}
+
+.add-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .add-page-header{
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        top: 0;
+        right: 0;
+        left: 0;
+        h2{
+            font-size: $header;
+            font-weight: normal;
+        }
+        p{
+            font-family: "Montserrat", sans-serif;
+            font-size: $header;
+        }
+    }
+
+    section{
+        background-color: $tile-color;
+        border-radius: 5px;
+        width: 100%;
+
+        h2{
+            font-size: $header;
+            font-weight: normal;
+            text-align: center;
+            padding-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group{
+
+            label, p, input, select{
+                font-size: $title;
+            }
+
+            .msg{
+                
+                padding-right: 10px;
+                text-align: right;
+                height: 35px;
+                span, sup{
+                    color: $error;
+                    font-size: $paragraph;
+                }
+            }
+
+            .input{
+                display: flex;
+                flex-direction: row;
+                padding-right: 10px;
+                padding-left: 10px;
+                justify-content: space-between;
+                
+                div, .input-field{
+                    display: flex;
+                    width: 200px;
+                }
+                input, select{
+                    background: none;
+                    border: 1px solid white;
+                    border-radius: 5px;
+                    outline: none;
+                }
+
+                select option {
+                    background-color: $tile-color;
+                    margin-top: 10px;
+                    text-align: center;
+                }
+
+                input[type="number"]{
+                    width: 120px;
+                }
+
+                div{
+                    display: flex;
+                    justify-content: space-between;
+                    text-align: center;
+                    select {
+                        margin-left: 10px;
+                    }
+                }
+
+            }
+        }
+
+        .btns{
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: 20px;
+            button{
+                background-color: $secondary-color;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                width: 140px;
+                height: 50px;
+                font-size: $title;
+
+
+            }
+            button[disabled]{
+                background-color: $properties-color;
+            }
+
+            #read-bill{
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+        }
+    }
+
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
+    }
+}
+
+.menu-page{
+    position: relative;
+    height: 100%;
+    .header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        h2{
+            font-size: $header;
+            font-weight: normal;
+        }
+        p{
+            font-family: "Montserrat", sans-serif;
+            font-size: $header;
+        }
+    }
+
+    section{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        div{
+            background-color: $tile-color;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            h2{
+                font-size: $title;
+                font-weight: normal;
+            }
+        }
+    }
+
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
+    }
+}
+

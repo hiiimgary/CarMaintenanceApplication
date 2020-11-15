@@ -1,83 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Car, Currency, Fuel, FuelType } from '../models/car.model';
+import { Globals } from '../globals';
+import { Car, Currency, Fuel, FuelType, Insurance, Repair, Toll } from '../models/car.model';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarService {
   
-  carsStorage: Car[] = [
-    {
-      id: "1",
-      default: true,
-      license_plate: "MSR-655",
-      brand: "Volkswagen",
-      car_model: "Golf 4 Variant",
-      vin: "wwwvw123sdfdf1js",
-      release_year: "2001",
-      refueling: [
-        {
-          id: "1",
-          date: "2020-10-18",
-          station: "SHE",
-          type: FuelType.diesel,
-          amount: 38,
-          price: 15000,
-          currency: Currency.HUF,
-          mileage: 244586
-        },
-        {
-          id: "2",
-          date: "2020-10-20",
-          station: "SHE",
-          type: FuelType.diesel,
-          amount: 30,
-          price: 13000,
-          currency: Currency.HUF,
-          mileage: 244586
-        }
-      ]
-    },
-    {
-      id: "1",
-      default: false,
-      license_plate: "MSR-654",
-      brand: "Volkswagen",
-      car_model: "Golf 7 Variant",
-      vin: "wwwvw123sdfdf1js",
-      release_year: "2013",
-      refueling: [
-        {
-          id: "1",
-          date: "2020-10-18",
-          station: "MOL",
-          type: FuelType.diesel,
-          amount: 38,
-          price: 15000,
-          currency: Currency.HUF,
-          mileage: 244586
-        },
-        {
-          id: "2",
-          date: "2020-10-20",
-          station: "MOL",
-          type: FuelType.diesel,
-          amount: 30,
-          price: 13000,
-          currency: Currency.HUF,
-          mileage: 244586
-        }
-      ]
-    }]
+  defaultCar: Car = {
+    _id: '1',
+    default: false,
+    license_plate: '-',
+    brand: '',
+    car_model: '',
+    vin: '',
+    fuel_type: '',
+    release_year: '',
+  }
 
   private carSource = new BehaviorSubject<Car>(null);
   activeCar = this.carSource.asObservable();
   active: Car;
   cars: Car[];
 
-  constructor() { 
+  constructor(private _http: HttpClient, private _globals: Globals, private _datepipe: DatePipe) { 
     this.init();
   }
 
@@ -85,20 +35,27 @@ export class CarService {
     this.cars = [];
     if(localStorage.getItem('cars') != null){
       this.cars = JSON.parse(localStorage.getItem('cars'));
+    } 
+    if(this.cars.length != 0){
+      this.cars.forEach(car => {
+        if(car.default){
+          this.active = car;
+          this.carSource.next(car);
+        } 
+      });
     } else {
-      this.cars = await this.carsStorage;
-      localStorage.setItem('cars', JSON.stringify(this.cars));
+      this.active = this.defaultCar;
+      this.carSource.next(this.defaultCar);
     }
-    this.cars.forEach(car => {
-      if(car.default){
-        this.active = car;
-        this.carSource.next(car);
-      } 
-    })
+
   }
 
   async getCars(){
     return await this.cars;
+  }
+
+  logout(){
+    this.cars = [];
   }
 
   changeActiveCar(car: Car){
@@ -107,23 +64,157 @@ export class CarService {
   }
 
   addFuel(fuel: Fuel){
-    //TODO : Add ID, push to DB
-    if(this.active.refueling == undefined){
-      this.active.refueling = [];
-    }
-    this.active.refueling.push(fuel);
-    this.changeActiveCar(this.active);
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/add-fuel', {car_id: id, fuel: fuel}).subscribe(res => {
+      var car = this.cars.find(car => car._id == id);
+      if(!car.refueling){
+        car.refueling = [];
+      }
+      car.refueling.push(res as Fuel);
+      localStorage.setItem('cars', JSON.stringify(this.cars));
+      this.changeActiveCar(car);
+    })
   }
 
-  addCar(car: Car){
-    //TODO : Add ID, push to DB
-    if(this.cars == null){
-      car.default = true;
-      this.cars.push(car);
+  deleteFuel(fuel_id: string){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/delete-fuel', {car_id: id, fuel_id: fuel_id}).subscribe(res => {
+      if(res == 200){
+        var car = this.cars.find(car => car._id == id);
+        car.refueling =  car.refueling.filter(fuel => fuel._id != fuel_id);
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+        this.changeActiveCar(car);
+      }
+    })
+  }
+
+  addRepair(repair: Repair){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/add-repair', {car_id: id, repair: repair}).subscribe(res => {
+      console.log(res);
+      var car = this.cars.find(car => car._id = id);
+      if(!car.repairs){
+        car.repairs = [];
+      }
+      car.repairs.push(res as Repair);
+      localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    });
+  }
+
+  deleteRepair(repair_id: string){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/delete-repair', {car_id: id, repair_id: repair_id}).subscribe(res => {
+      if(res == 200){
+        var car = this.cars.find(car => car._id == id);
+        car.repairs =  car.repairs.filter(repair => repair._id != repair_id);
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+        this.changeActiveCar(car);
+      }
+    })
+  }
+
+  addToll(toll: Toll){
+    var id = this.active._id;
+    let expiration = new Date(toll.purchase_date);
+    switch(toll.duration){
+      case "Weekly": { expiration.setDate(expiration.getDate() + 10); break;}
+      case "Monthly": {expiration.setMonth(expiration.getMonth() +1 ); break;}
+      case "Yearly": {
+        expiration.setFullYear(expiration.getFullYear() + 1);
+        expiration.setMonth(1);
+        expiration.setDate(0);
+        break;
+      }
+      default: { console.log('wrong format'); break; }
     }
-    this.cars.push(car);
-    
+    toll.expiration = this._datepipe.transform(expiration, 'yyyy.MM.dd');
+    this._http.post(this._globals.BASE_URL + 'user/add-toll', {car_id: id, toll: toll}).subscribe(res => {
+      var car = this.cars.find(car => car._id == id);
+      if(!car.tolls){
+        car.tolls = [];
+      }
+      car.tolls.push(res as Toll);
+      localStorage.setItem('cars', JSON.stringify(this.cars));
+      this.changeActiveCar(car);
+    }); 
+    //TODO: add calendar entry  
+  }
+
+  deleteToll(toll_id: string){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/delete-toll', {car_id: id, toll_id: toll_id}).subscribe(res => {
+      if(res == 200){
+        var car = this.cars.find(car => car._id == id);
+        car.tolls =  car.tolls.filter(toll => toll._id != toll_id);
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+        this.changeActiveCar(car);
+      }
+    })
+  }
+
+  addInsurance(insurance: Insurance){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/add-insurance', {car_id: id, insurance: insurance}).subscribe(res => {
+      var car = this.cars.find(car => car._id == id);
+      if(!car.insurances){
+        car.insurances = [];
+      }
+      car.insurances.push(res as Insurance);
+      localStorage.setItem('cars', JSON.stringify(this.cars));
+      this.changeActiveCar(car);
+    }); 
+
+    //TODO: ADD to Calendar
+  }
+
+  deleteInsurance(insurance_id: string){
+    var id = this.active._id;
+    this._http.post(this._globals.BASE_URL + 'user/delete-insurance', {car_id: id, insurance_id: insurance_id}).subscribe(res => {
+      if(res == 200){
+        var car = this.cars.find(car => car._id == id);
+        car.insurances =  car.insurances.filter(insurance => insurance._id != insurance_id);
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+        this.changeActiveCar(car);
+      }
+    })
+  }
+
+  async addCar(newcar: Car){
+    if(this.cars.length == 0){
+      newcar.default = true;
+    } else {
+      newcar.default = false;
+    }
+    this._http.post(this._globals.BASE_URL + 'user/add-car', newcar).subscribe(res => {
+      console.log('done');
+      console.log(res);
+      var car = res as Car;
+      this.cars.push(car);
+      localStorage.setItem('cars', JSON.stringify(this.cars));
+      if(this.cars.length == 1){
+        this.changeActiveCar(this.cars[0]);
+      }
+    })
+  }
+
+  UploadPicture(car: Car, picture: string){
+    let now = new Date();
+    const date = this._datepipe.transform(now, 'yyyy.MM.dd h:mm');
+    const pictureObject = {
+      upload_date: date,
+      picture: picture
+    }
+    const carGalleryId = car.pictures ? car.pictures : null;
+    console.log({car_gallery_id: carGalleryId, car_id: car._id, pictureObject});
+    this._http.post(this._globals.BASE_URL + 'pictures/add-car-picture', {car_gallery_id: carGalleryId, car_id: car._id, picture: pictureObject}).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  getCarPictures(gallery_id: string){
+
+    return this._http.get(this._globals.BASE_URL + 'pictures/car-pictures/' + gallery_id);
   }
 
 }

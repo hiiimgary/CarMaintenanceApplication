@@ -1,0 +1,163 @@
+<main class="add-repair-wrapper">
+
+
+    <section class="add-repair">
+        <form [formGroup]="addRepair">
+
+            <div class="form-part">
+                <h2 *ngIf="this.isDIY">DIY Repair</h2>
+                <h2 *ngIf="!this.isDIY">Service Repair</h2>
+
+                <div class="form-group">
+                    <div class="input">
+                        <label for="date">DATE</label>
+                        <input type="text" class="input-date" id="date" formControlName="date" name="date" placeholder="YYYY.MM.DD">
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="date.invalid && date.touched"><sup>*</sup>Date is required</span>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="input">
+                        <label for="mileage">MILEAGE</label>
+                        <input type="number" id="mileage" formControlName="mileage" name="mileage">
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="mileage.invalid && mileage.touched"><sup>*</sup>Mileage is required</span>
+                    </div>
+                </div>
+
+                <div class="radio-button">
+                    <button class="radio1" [disabled]="this.isDIY" (click)="setDIY(true)">DIY</button>
+                    <button class="radio2" [disabled]="!this.isDIY" (click)="setDIY(false)">Service</button>
+                </div>
+            </div>
+
+
+            
+
+            <div formGroupName="service" class="form-part" *ngIf="!this.isDIY">
+
+                <h2>Service Information</h2>
+
+                <div class="form-group">
+                    <div class="long-input">
+                        <label for="company_name">COMPANY NAME</label>
+                        <input type="text" formControlName="company_name" name="company_name">
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="company_name.invalid && company_name.touched"><sup>*</sup>Company name is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="long-input">
+                        <label for="company_address">COMPANY ADDRESS</label>
+                        <input type="text" class="long-input" formControlName="company_address" name="company_address">
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="company_address.invalid && company_address.touched"><sup>*</sup>Company address is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="long-input">
+                        <label for="description">DESCRIPTION</label>
+                        <textarea rows="5" formControlName="description" name="description"></textarea>
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="description.invalid && description.touched"><sup>*</sup>Description is required</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input">
+                        <label for="fee">FEE</label>
+                        <div>
+                            <input type="number" class="input-field" formControlName="fee" name="fee">
+                            <select class="input-field" formControlName="currency" name="currency" id="currency">
+                                <option *ngFor="let c of keys(currencyEnum)" [ngValue]="currencyEnum[c]" >{{ currencyEnum[c] }}</option>
+                            </select>
+                        </div>
+    
+                    </div>
+    
+                    <div class="msg">
+                        <span *ngIf="fee.invalid && fee.touched"><sup>*</sup>Fee is required</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div formArrayName="parts" >
+
+                <h2>Parts</h2>
+
+                <div *ngFor="let part of partForms.controls; let i = index" [formGroupName]="i" class="part form-part">
+
+                    <div class="part-header">
+                        <p>{{i+1}}. {{ getName(i).value }}</p>
+                        <svg (click)="deletePart(i)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="long-input">
+                            <label for="name">NAME</label>
+                            <input type="text" formControlName="name" name="name">
+                        </div>
+        
+                        <div class="msg">
+                            <span *ngIf="getName(i).invalid && getName(i).touched"><sup>*</sup>Name is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="long-input">
+                            <label for="reason_of_interchange">REASON OF INTERCHANGE</label>
+                            <textarea rows="5" formControlName="reason_of_interchange" name="reason_of_interchange"></textarea>
+                        </div>
+        
+                        <div class="msg">
+                            <span *ngIf="getReasonOfInterchange(i).invalid && getReasonOfInterchange(i).touched"><sup>*</sup>Reason of interchange is required</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input">
+                            <label for="price">PRICE</label>
+                            <div>
+                                <input type="number" class="input-field" formControlName="price" name="price">
+                                <select class="input-field" formControlName="currency" name="currency" id="currency">
+                                    <option *ngFor="let c of keys(currencyEnum)" [ngValue]="currencyEnum[c]" >{{ currencyEnum[c] }}</option>
+                                </select>
+                            </div>
+        
+                        </div>
+        
+                        <div class="msg">
+                            <span *ngIf="getPrice(i).invalid && getPrice(i).touched"><sup>*</sup>Price is required</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </form>
+    </section>
+    <div class="btns">
+        <svg (click)="navigateTo('repairs')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+        <button id="add-part" (click)="addPart()">Add Part</button>
+        <button id="save" (click)="save()" [disabled]="addRepair.invalid">Save</button>
+    </div>
+
+</main>

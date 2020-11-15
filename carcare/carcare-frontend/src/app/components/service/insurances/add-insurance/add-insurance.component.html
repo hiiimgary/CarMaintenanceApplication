@@ -1,0 +1,94 @@
+<main class="add-page">
+    <div class="add-page-header">
+        <h2>Add Insurance</h2>
+        <p>{{ car.license_plate }}</p>
+    </div>
+
+    <section class="add-insurance">
+        <h2>New Entry</h2>
+        <form [formGroup]="addInsurance" (ngSubmit)="save()">
+            <div class="form-group">
+                <div class="input">
+                    <label for="type">TYPE</label>
+                    <select class="input-field" formControlName="type" name="type">
+                        <option *ngFor="let t of keys(insuranceTypeEnum)" [ngValue]="insuranceTypeEnum[t]" >{{ insuranceTypeEnum[t] }}</option>
+                    </select>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="type.invalid && type.touched"><sup>*</sup>Type required!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="interval">INTERVAL</label>
+                    <select class="input-field" formControlName="interval" name="interval">
+                        <option *ngFor="let i of keys(intervalEnum)" [ngValue]="intervalEnum[i]" >{{ intervalEnum[i] }}</option>
+                    </select>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="interval.invalid && interval.touched"><sup>*</sup>Interval is required!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="service_provider">SERVICE PROVIDER</label>
+                    <input type="text" class="input-field" id="service-provider" formControlName="service_provider" name="service_provider">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="service_provider.invalid && service_provider.touched"><sup>*</sup>Service provider is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="first_deadline">FIRST DEADLINE</label>
+                    <input type="text" class="input-field" id="first-deadline" formControlName="first_deadline" name="first_deadline" placeholder="YYYY.MM.DD">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="first_deadline.invalid && first_deadline.touched"><sup>*</sup>First deadline is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="bonus_malus">BONUS MALUS</label>
+                    <input type="text" class="input-field" id="bonus-malus" formControlName="bonus_malus" name="bonus_malus" placeholder="A00">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="bonus_malus.invalid && bonus_malus.touched"><sup>*</sup>Bonus Malus Pattern error</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="fee">FEE</label>
+                    <div>
+                        <input type="number" class="input-field" formControlName="fee" name="fee">
+                        <select class="input-field" formControlName="currency" name="currency" id="currency">
+                            <option *ngFor="let c of keys(currencyEnum)" [ngValue]="currencyEnum[c]" >{{ currencyEnum[c] }}</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="fee.invalid && fee.touched"><sup>*</sup>Fee is required</span>
+                </div>
+            </div>
+
+            <div class="btns">
+                <button id="save" type="submit" [disabled]="addInsurance.invalid">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <svg (click)="navigateTo('service/insurances')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+
+</main>

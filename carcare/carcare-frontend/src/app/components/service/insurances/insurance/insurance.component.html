@@ -1,0 +1,42 @@
+<main class="elements_wrapper">
+    <section class="header" >
+        <div>
+            <h2>{{ insurance.service_provider }}</h2>
+            <p>{{ insurance.fee }} {{insurance.currency}}</p>
+        </div>
+
+
+        
+        <svg (click)="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+    </section>
+    <section class="properties" *ngIf="isOpen">
+        <div>
+            <p class="property">SERVICE PROVIDER</p>
+            <p class="data">{{ insurance.service_provider }}</p>
+        </div>
+        <div>
+            <p class="property">TYPE</p>
+            <p class="data">{{ insurance.type }}</p>
+        </div>
+        <div>
+            <p class="property">FIRST DEADLINE</p>
+            <p class="data">{{ insurance.first_deadline }}</p>
+        </div>
+        <div>
+            <p class="property">INTERVAL</p>
+            <p class="data">{{ insurance.interval }}</p>
+        </div>
+        <div *ngIf="insurance.bonus_malus">
+            <p class="property">BONUS MALUS</p>
+            <p class="data">{{ insurance.bonus_malus }}</p>
+        </div>
+        <div>
+            <p class="property">FEE</p>
+            <p class="data">{{ insurance.fee }} {{insurance.currency}}</p>
+        </div>
+        <div class="icons">
+            <svg (click)="delete()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </div>
+
+    </section>
+</main>

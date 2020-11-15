@@ -1,0 +1,64 @@
+<main class="add-page">
+    <div class="add-page-header">
+        <h2>Add Toll</h2>
+        <p>{{ car.license_plate }}</p>
+    </div>
+
+    <section class="add-fuel">
+        <h2>New Entry</h2>
+        <form [formGroup]="addToll" (ngSubmit)="save()">
+            <div class="form-group">
+                <div class="input">
+                    <label for="purchase_date" id="purchase-date-label">PURCHASE DATE</label>
+                    <input type="text" class="input-field" id="purchase-date" formControlName="purchase_date" name="purchase_date" placeholder="YYYY.MM.DD">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="purchase_date.invalid && purchase_date.touched"><sup>*</sup>Purchase date is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="duration">DURATION</label>
+                    <select class="input-field" (change)="changeDuration($event)" formControlName="duration" name="duration">
+                        <option *ngFor="let duration of durations" [ngValue]="duration" >{{ duration }}</option>
+                    </select>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="duration.invalid && duration.touched"><sup>*</sup>Duration required!</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="country">COUNTRY</label>
+                    <input type="text" class="input-field" formControlName="country" name="country">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="country.invalid && country.touched"><sup>*</sup>Country is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="region">REGION</label>
+                    <input type="text" class="input-field" formControlName="region" name="region">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="region.invalid && region.touched"><sup>*</sup>Region is required</span>
+                </div>
+            </div>
+
+            <div class="btns">
+                <button id="save" type="submit" [disabled]="addToll.invalid">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <svg (click)="navigateTo('service/tolls')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+
+</main>

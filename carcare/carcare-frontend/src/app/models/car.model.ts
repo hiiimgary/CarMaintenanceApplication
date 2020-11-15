@@ -1,16 +1,21 @@
 export interface Car {
-    id: string;
+    _id: string;
     default: boolean,
     license_plate: string;
     brand: string;
     car_model: string;
+    fuel_type: string;
     vin: string;
     release_year: string;
-    refueling: Fuel[];
+    refueling?: Fuel[];
+    repairs?: Repair[];
+    tolls?: Toll[];
+    insurances?: Insurance[];
+    pictures?: string;
 }
 
 export interface Fuel {
-    id: string;
+    _id: string;
     date: string;
     station: string;
     type: FuelType;
@@ -25,8 +30,75 @@ export enum FuelType {
     diesel = "Diesel"
 }
 
+export interface Repair{
+    _id: string;
+    diy: boolean;
+    date: string;
+    mileage: number;
+    service?: Service;
+    parts?: Part[];
+}
+
+export interface Service{
+    company_name: string;
+    company_address?: string;
+    description: string;
+    fee: number;
+    currency: Currency;
+}
+
+export interface Part{
+    name: string;
+    reason_of_interchange: string;
+    price: number;
+    currency: Currency;
+}
+
 export enum Currency {
     HUF = "HUF",
     EUR = "EUR",
     USD = "USD"
 }
+
+export interface Toll {
+    _id: string;
+    purchase_date: string;
+    expiration: string;
+    duration: string;
+    region: string;
+    country: string;
+}
+
+export interface Insurance {
+    _id: string;
+    service_provider: string;
+    type: InsuranceType;
+    first_deadline: string;
+    interval: Interval;
+    bonus_malus?: string;
+    fee: number;
+    currency: Currency;
+}
+
+export enum InsuranceType{
+    ThirdPartyOnly = "3rd party only",
+    FullyCoprehensive = "Fully coprehensive"
+}
+
+export enum Interval{
+    yearly = "Yearly",
+    quarterly = "Quarterly"
+}
+
+
+export interface FullForm{
+    id: string;
+    user: string;
+    formelements: Form[];
+}
+
+export interface Form{
+    type: number;
+    value: string;
+}
+

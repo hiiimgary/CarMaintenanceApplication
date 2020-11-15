@@ -1,0 +1,53 @@
+@import "../../../theme.scss";
+
+.profile-page{
+    width: 100%;
+    height: 100%;
+    .header{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        h2{
+            font-size: $header;
+            font-weight: normal;
+        }
+        p{
+            font-family: "Montserrat", sans-serif;
+            font-size: $header;
+        }
+    
+    }
+
+    .profile-details{
+        background-color: $tile-color;
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        #profile-picture{
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            background-color: $properties-color;
+        }
+        .properties{
+            padding-left: 10px;
+            .property{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 10px;
+                .name{
+                    //font-family: "Montserrat", sans-serif;
+                    font-size: $paragraph;
+                    color: $primary-darker;
+                    margin-right: 5px;
+                    
+                }
+                .value{
+                    font-size: $paragraph;
+                }
+            }
+        }
+    }
+}
