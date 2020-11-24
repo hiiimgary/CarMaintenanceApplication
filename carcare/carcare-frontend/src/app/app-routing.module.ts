@@ -17,6 +17,7 @@ import { TollsComponent } from './components/service/tolls/tolls.component';
 import { AuthGuard } from './services/auth.guard';
 import { RepairsComponent } from './components/service/repairs/repairs.component';
 import { AddRepairComponent } from './components/service/repairs/add-repair/add-repair.component';
+import { AddDeadlineComponent } from './components/calendar/add-deadline/add-deadline.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
       {path: 'service/insurances', component: InsurancesComponent},
       {path: 'service/insurances/add-insurance', component: AddInsuranceComponent},
       {path: 'calendar', component: CalendarComponent},
+      {path: 'calendar/add-deadline', component: AddDeadlineComponent},
     ]},
 ];
 

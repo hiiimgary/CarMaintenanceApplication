@@ -51,6 +51,19 @@ export const InsuranceSchema = new mongoose.Schema({
     currency: {type: String, required: true}
 });
 
+export const DeadlineSchema = new mongoose.Schema({
+    deadline: {type: String, required: true},
+    title: {type: String, required: true},
+    description: {type: String, required: false},
+    status: {type: String, required: true},
+    price: {type: String, required: false},
+    currency: {type: String, required: false},
+    repeating: {type: Boolean, required: true},
+    days: {type: Number, required: false},
+    months: {type: Number, required: false},
+    years: {type: Number, required: false}
+});
+
 export const CarSchema = new mongoose.Schema({
     license_plate: {type: String, required: true},
     brand: {type: String, required: true},
@@ -63,6 +76,7 @@ export const CarSchema = new mongoose.Schema({
     tolls: {type: [TollSchema], required: false},
     insurances: {type: [InsuranceSchema], required: false},
     repairs: {type: [RepairSchema], required: false},
+    calendar: {type: [DeadlineSchema], required: false},
     pictures: {type: String, required: false}
 });
 
@@ -98,6 +112,7 @@ export interface Car extends mongoose.Document {
     tolls: Toll[];
     insurances: Insurance[];
     repairs: Repair[];
+    calendar: Deadline[];
     pictures?: string;
 }
 
@@ -162,6 +177,19 @@ export class InsuranceDTO{
     currency: Currency;
 }
 
+export class DeadlineDTO {
+    deadline: Date;
+    title: string;
+    description?: string;
+    status: string;
+    price: number;
+    currency: Currency;
+    repeating: boolean;
+    days?: number;
+    months?: number;
+    years?: number;
+}
+
 export interface Fuel extends mongoose.Document {
     id: string;
     date: string;
@@ -202,6 +230,20 @@ export interface Insurance extends mongoose.Document {
     currency: Currency;
 }
 
+export interface Deadline extends mongoose.Document {
+    id: string;
+    deadline: Date;
+    title: string;
+    description?: string;
+    status: string;
+    price: number;
+    currency: Currency;
+    repeating: boolean;
+    days?: number;
+    months?: number;
+    years?: number;
+}
+
 export enum FuelType {
     gasoline,
     diesel
@@ -211,4 +253,10 @@ export enum Currency {
     HUF,
     EUR,
     USD
+}
+
+export enum DeadlineStatus {
+    pending = "Pending",
+    done = "Done",
+    past_due = "Past Due"
 }

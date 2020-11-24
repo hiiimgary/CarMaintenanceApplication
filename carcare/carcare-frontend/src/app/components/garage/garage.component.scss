@@ -2,6 +2,7 @@
 
 main{
     position: relative;
+    overflow-y: hidden;
     height: 100%;
 
     h2{
@@ -13,5 +14,10 @@ main{
         position: absolute;
         bottom: 20px;
         right: 10px;
+    }
+
+    section{
+        max-height: 90%;
+        overflow-y: scroll;
     }
 }

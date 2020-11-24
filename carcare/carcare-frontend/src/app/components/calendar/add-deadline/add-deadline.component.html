@@ -1,0 +1,104 @@
+<main class="add-page wrapper">
+    <div class="add-page-header">
+        <h2>Add Deadline</h2>
+        <p>{{ car.license_plate }}</p>
+    </div>
+
+    <section class="add-insurance new-entry">
+        <h2>New Entry</h2>
+        <form [formGroup]="addDeadline" (ngSubmit)="save()">
+            <div class="form-group">
+                <div class="input">
+                    <label for="deadline">DEADLINE</label>
+                    <input type="text" class="input-field" id="deadline" formControlName="deadline" name="deadline"  placeholder="YYYY.MM.DD">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="deadline.invalid && deadline.touched"><sup>*</sup>Deadline is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="title">TITLE</label>
+                    <input type="text" class="input-field" id="title" formControlName="title" name="title">
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="title.invalid && title.touched"><sup>*</sup>Title is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="description">DESCRIPTION</label>
+                    <textarea rows="5" formControlName="description" name="description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="status">STATUS</label>
+                    <div>
+                        <select class="input-field" formControlName="status" name="status" id="currency">
+                            <option *ngFor="let s of keys(statusEnum); let i = index" [ngValue]="statusEnum[s]">{{ statusEnum[s] }}</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="price.invalid && price.touched"><sup>*</sup>Fee is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="price">PRICE</label>
+                    <div>
+                        <input type="number" class="input-field" formControlName="price" name="price">
+                        <select class="input-field" formControlName="currency" name="currency" id="currency">
+                            <option *ngFor="let c of keys(currencyEnum)" [ngValue]="currencyEnum[c]" >{{ currencyEnum[c] }}</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="price.invalid && price.touched"><sup>*</sup>Fee is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input">
+                    <label for="title">REPEATING</label>
+                    <section id="check-box" (click)="isRepeating = !isRepeating">
+                        <svg *ngIf="isRepeating"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="30px" height="30px"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    </section>
+                </div>
+            </div>
+
+            <div class="form-group" *ngIf="isRepeating">
+                <div class="input">
+                    <label for="years">INTERVAL</label>
+                    <div id="interval">
+                        <input type="number" class="input-field" id="years" formControlName="years" name="years" placeholder="Year">
+                        <input type="number" class="input-field" id="months" formControlName="months" name="months" placeholder="Month">
+                        <input type="number" class="input-field" id="days" formControlName="days" name="days" placeholder="Day">
+                    </div>
+                </div>
+
+                <div class="msg">
+                    <span *ngIf="title.invalid && title.touched"><sup>*</sup>Title is required</span>
+                </div>
+            </div>
+
+            <div class="btns">
+                <button id="save" type="submit" [disabled]="addDeadline.invalid">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <svg (click)="navigateTo('calendar')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+
+</main>

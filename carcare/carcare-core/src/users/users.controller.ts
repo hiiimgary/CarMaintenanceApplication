@@ -74,6 +74,27 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Post('add-deadline')
+    async addDeadline(@Req() req ,@Body() {car_id, deadline}){
+        const res = await this.userService.addDeadline(req.user, car_id, deadline);
+        return res;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('delete-deadline')
+    async deleteDeadline(@Req() req ,@Body() {car_id, deadline_id}){
+        const res = await this.userService.deleteDeadline(req.user, car_id, deadline_id);
+        return res;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('mark-deadline')
+    async markDeadline(@Req() req ,@Body() {car_id, deadline_id, status}){
+        const res = await this.userService.markDeadline(req.user, car_id, deadline_id, status);
+        return res;
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Post('upload-profile-picture')
     async uploadProfilePicture(@Req() req ,@Body() {profilePicture}){
         const res = await this.userService.uploadProfilePicture(req.user, profilePicture);

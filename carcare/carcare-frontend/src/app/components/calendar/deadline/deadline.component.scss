@@ -1,0 +1,11 @@
+@import '../../../theme.scss';
+
+.pending{
+    color: $warning;
+}
+.done{
+    color: $done;
+}
+.past-due{
+    color: $error;
+}

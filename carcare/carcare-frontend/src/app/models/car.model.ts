@@ -11,6 +11,7 @@ export interface Car {
     repairs?: Repair[];
     tolls?: Toll[];
     insurances?: Insurance[];
+    calendar?: Deadline[];
     pictures?: string;
 }
 
@@ -90,15 +91,23 @@ export enum Interval{
     quarterly = "Quarterly"
 }
 
-
-export interface FullForm{
-    id: string;
-    user: string;
-    formelements: Form[];
+export interface Deadline {
+    _id: string;
+    deadline: Date;
+    title: string;
+    description?: string;
+    price: number;
+    currency: Currency;
+    status: DeadlineStatus;
+    repeating: boolean;
+    days?: number;
+    months?: number;
+    years?: number;
 }
 
-export interface Form{
-    type: number;
-    value: string;
+export enum DeadlineStatus {
+    pending = "Pending",
+    done = "Done",
+    past_due = "Past Due"
 }
 

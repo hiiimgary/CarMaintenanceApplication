@@ -8,6 +8,8 @@ $primary-color: #FFFFFF;
 $primary-darker: #9295a5;
 $dark: #000000;
 $error: #d63b3b;
+$warning: #FFE143;
+$done: #49C346;
 
 
 $header: 24px;
@@ -46,6 +48,18 @@ $title: 18px;
         }
 
     }
+
+    button{
+        background-color: $secondary-color;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        width: 140px;
+        height: 50px;
+        font-size: $title;
+
+
+    }
     .properties{
         background-color: $properties-color;
         padding-top: 10px;
@@ -72,6 +86,7 @@ $title: 18px;
 
 .list-page{
     position: relative;
+    overflow-y: hidden;
     height: 100%;
     .list-page-header{
         display: flex;
@@ -93,6 +108,11 @@ $title: 18px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    section{
+        max-height: 90%;
+        overflow-y: scroll;
     }
 
     .back{
@@ -150,6 +170,10 @@ $title: 18px;
 
             label, p, input, select{
                 font-size: $title;
+            }
+
+            label{
+                color: $primary-darker;
             }
 
             .msg{
