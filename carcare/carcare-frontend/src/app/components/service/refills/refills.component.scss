@@ -1,39 +1,37 @@
 @import "../../../theme.scss";
-// main{
-//     position: relative;
-//     height: 100%;
-//     .header{
-//         display: flex;
-//         justify-content: space-between;
-//         margin-bottom: 30px;
-//         h2{
-//             font-size: $header;
-//             font-weight: normal;
-//         }
-//         p{
-//             font-family: "Montserrat", sans-serif;
-//             font-size: $header;
-//         }
-//     }
 
-//     #no-data{
-//         width: 100%;
-//         height: 100%;
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//     }
+.consumption{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
-//     .back{
-//         position: absolute;
-//         bottom: 20px;
-//         left: 5px;
-//         transform: rotate(180deg);
-//     }
+    div{
+        width: 60%;
+        padding-bottom: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        background-color: $tile-color;
+        p{
+            font-weight: normal;
+            font-size: $title;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        .value{
+            font-size: $header;
+        }
+        .label{
+            color: $primary-darker;
+        }
+    }
 
-//     .add{
-//         position: absolute;
-//         bottom: 20px;
-//         right: 10px;
-//     }
-// }
+}
+
+.section-title{
+    color: $primary-darker;
+    font-weight: normal;
+    font-size: $title;
+    margin-top: 10px;
+}

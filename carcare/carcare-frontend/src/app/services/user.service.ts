@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Globals } from '../globals';
 import { User } from '../models/user.model';
 
@@ -18,6 +19,6 @@ export class UserService {
   }
 
   uploadProfilePicture(img: string){
-    return this._http.post(this._globals.BASE_URL + 'user/upload-profile-picture', {profilePicture: img});
+    return this._http.post(environment.backendURL + 'user/upload-profile-picture', {profilePicture: img});
   }
 }

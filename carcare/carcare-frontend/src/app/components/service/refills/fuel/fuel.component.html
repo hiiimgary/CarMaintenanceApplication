@@ -1,8 +1,10 @@
 <main class="elements_wrapper">
     <section class="header" >
         <div>
-            <h2>{{ fuel.date }}</h2>
+            <h2>{{ fuel.date | date:'MM.dd' }}</h2>
             <p>{{ fuel.station }}</p>
+            <p *ngIf="lastMileage != null" class="consumption">{{ consumption }} L</p>
+            <p *ngIf="lastMileage == null" class="consumption">--</p>
             <p> {{ fuel.amount }} L</p>
         </div>
 

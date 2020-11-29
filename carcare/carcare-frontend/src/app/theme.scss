@@ -91,7 +91,7 @@ $title: 18px;
     .list-page-header{
         display: flex;
         justify-content: space-between;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         h2{
             font-size: $header;
             font-weight: normal;
@@ -113,6 +113,16 @@ $title: 18px;
     section{
         max-height: 90%;
         overflow-y: scroll;
+        .spacer{
+            height: 80px;
+        }
+
+        .section-title{
+            color: $primary-darker;
+            font-weight: normal;
+            font-size: $title;
+            margin-top: 10px;
+        }
     }
 
     .back{
@@ -236,7 +246,7 @@ $title: 18px;
                 border: none;
                 border-radius: 5px;
                 outline: none;
-                width: 140px;
+                width: 150px;
                 height: 50px;
                 font-size: $title;
 
@@ -268,7 +278,7 @@ $title: 18px;
     .header{
         display: flex;
         justify-content: space-between;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         h2{
             font-size: $header;
             font-weight: normal;
@@ -307,3 +317,6 @@ $title: 18px;
     }
 }
 
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

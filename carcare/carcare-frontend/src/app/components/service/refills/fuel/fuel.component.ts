@@ -10,10 +10,15 @@ import { CarService } from 'src/app/services/car.service';
 export class FuelComponent implements OnInit {
 
   @Input() fuel: Fuel;
+  @Input() lastMileage: number;
+  consumption: number;
   isOpen: boolean = false;
   constructor(private carService: CarService) { }
 
   ngOnInit(): void {
+    let distance = this.fuel.mileage - this.lastMileage;
+    this.consumption = this.fuel.amount / distance * 100;
+    this.consumption = Math.round((this.consumption + Number.EPSILON) * 10) / 10;
   }
 
   open(){

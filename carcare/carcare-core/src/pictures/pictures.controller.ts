@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Req, UseGuards} from '@nestjs/commo
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UsersService } from 'src/users/users.service';
 
-@Controller('pictures')
+@Controller('api/pictures')
 export class PicturesController {
 
     constructor(private usersService: UsersService){}

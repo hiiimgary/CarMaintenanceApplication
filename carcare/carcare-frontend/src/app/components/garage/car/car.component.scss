@@ -55,15 +55,15 @@ main{
 
         .car-pictures{
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr;
             .car-picture{
                 margin: 0;
-                width: 50%;
+                //width: 50%;
                 overflow: hidden;
                 div{
                     margin: 0;
-                    width: 100%;
+                    //width: 50%;
                     border: 1px solid $properties-color;
 
                     img{

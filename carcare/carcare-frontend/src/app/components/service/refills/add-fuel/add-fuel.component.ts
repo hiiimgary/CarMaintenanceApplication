@@ -64,6 +64,7 @@ export class AddFuelComponent implements OnInit {
 
   save(){
     const refill = this.addFuel.value;
+    refill.date = new Date(refill.date);
     this.carService.addFuel(refill);
     this.navigateTo('service/fuel');
 

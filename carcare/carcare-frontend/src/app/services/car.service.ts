@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Globals } from '../globals';
 import { Car, Currency, Deadline, DeadlineStatus, Fuel, FuelType, Insurance, Repair, Toll } from '../models/car.model';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -65,12 +66,20 @@ export class CarService {
 
   addFuel(fuel: Fuel){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/add-fuel', {car_id: id, fuel: fuel}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-fuel', {car_id: id, fuel: fuel}).subscribe(res => {
       var car = this.cars.find(car => car._id == id);
+      console.log(res);
       if(!car.refueling){
         car.refueling = [];
       }
       car.refueling.push(res as Fuel);
+      car.refueling.sort((a, b) => {
+        let d1 = new Date(a.date); let d2 = new Date(b.date);
+        let same = d1.getTime() === d2.getTime();
+        if (same) return 0;
+        if (d1 > d2) return -1;
+        if (d1 < d2) return 1;
+      });
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
     })
@@ -78,7 +87,7 @@ export class CarService {
 
   deleteFuel(fuel_id: string){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/delete-fuel', {car_id: id, fuel_id: fuel_id}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/delete-fuel', {car_id: id, fuel_id: fuel_id}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         car.refueling =  car.refueling.filter(fuel => fuel._id != fuel_id);
@@ -90,7 +99,7 @@ export class CarService {
 
   addRepair(repair: Repair){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/add-repair', {car_id: id, repair: repair}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-repair', {car_id: id, repair: repair}).subscribe(res => {
       console.log(res);
       var car = this.cars.find(car => car._id = id);
       if(!car.repairs){
@@ -104,7 +113,7 @@ export class CarService {
 
   deleteRepair(repair_id: string){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/delete-repair', {car_id: id, repair_id: repair_id}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/delete-repair', {car_id: id, repair_id: repair_id}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         car.repairs =  car.repairs.filter(repair => repair._id != repair_id);
@@ -129,7 +138,7 @@ export class CarService {
       default: { console.log('wrong format'); break; }
     }
     toll.expiration = this._datepipe.transform(expiration, 'yyyy.MM.dd');
-    this._http.post(this._globals.BASE_URL + 'user/add-toll', {car_id: id, toll: toll}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-toll', {car_id: id, toll: toll}).subscribe(res => {
       var car = this.cars.find(car => car._id == id);
       if(!car.tolls){
         car.tolls = [];
@@ -143,7 +152,7 @@ export class CarService {
 
   deleteToll(toll_id: string){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/delete-toll', {car_id: id, toll_id: toll_id}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/delete-toll', {car_id: id, toll_id: toll_id}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         car.tolls =  car.tolls.filter(toll => toll._id != toll_id);
@@ -155,7 +164,7 @@ export class CarService {
 
   addInsurance(insurance: Insurance){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/add-insurance', {car_id: id, insurance: insurance}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-insurance', {car_id: id, insurance: insurance}).subscribe(res => {
       var car = this.cars.find(car => car._id == id);
       if(!car.insurances){
         car.insurances = [];
@@ -170,7 +179,7 @@ export class CarService {
 
   deleteInsurance(insurance_id: string){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/delete-insurance', {car_id: id, insurance_id: insurance_id}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/delete-insurance', {car_id: id, insurance_id: insurance_id}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         car.insurances =  car.insurances.filter(insurance => insurance._id != insurance_id);
@@ -188,7 +197,7 @@ export class CarService {
       id = this.active._id;
     }
     deadline.deadline = new Date(deadline.deadline);
-    this._http.post(this._globals.BASE_URL + 'user/add-deadline', {car_id: id, deadline: deadline}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-deadline', {car_id: id, deadline: deadline}).subscribe(res => {
       console.log(res);
       var car = this.cars.find(car => car._id == id);
       if(!car.calendar){
@@ -212,7 +221,7 @@ export class CarService {
 
   deleteDeadline(deadline_id: string){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/delete-deadline', {car_id: id, deadline_id: deadline_id}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/delete-deadline', {car_id: id, deadline_id: deadline_id}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         car.calendar =  car.calendar.filter(calendar => calendar._id != deadline_id);
@@ -224,7 +233,7 @@ export class CarService {
 
   markDeadline(deadline_id: string, status: DeadlineStatus){
     var id = this.active._id;
-    this._http.post(this._globals.BASE_URL + 'user/mark-deadline', {car_id: id, deadline_id: deadline_id, status: status}).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/mark-deadline', {car_id: id, deadline_id: deadline_id, status: status}).subscribe(res => {
       if(res == 200){
         var car = this.cars.find(car => car._id == id);
         let deadline =  car.calendar.find(calendar => calendar._id == deadline_id);
@@ -266,7 +275,7 @@ export class CarService {
     } else {
       newcar.default = false;
     }
-    this._http.post(this._globals.BASE_URL + 'user/add-car', newcar).subscribe(res => {
+    this._http.post(environment.backendURL + 'user/add-car', newcar).subscribe(res => {
       console.log('done');
       console.log(res);
       var car = res as Car;
@@ -286,19 +295,20 @@ export class CarService {
       picture: picture
     }
     const carGalleryId = car.pictures ? car.pictures : null;
-    console.log({car_gallery_id: carGalleryId, car_id: car._id, pictureObject});
-    this._http.post(this._globals.BASE_URL + 'pictures/add-car-picture', {car_gallery_id: carGalleryId, car_id: car._id, picture: pictureObject}).subscribe(res => {
+    this._http.post(environment.backendURL + 'pictures/add-car-picture', {car_gallery_id: carGalleryId, car_id: car._id, picture: pictureObject}).subscribe(res => {
       if(res == 200 && carGalleryId != null && sessionStorage.getItem(carGalleryId)){
         const gallery = JSON.parse(sessionStorage.getItem(carGalleryId));
         gallery.pictures.push(pictureObject);
         sessionStorage.setItem(carGalleryId, gallery);
+      } else {
+        car.pictures = res as string;
       }
     });
   }
 
   getCarPictures(gallery_id: string){
 
-    return this._http.get(this._globals.BASE_URL + 'pictures/car-pictures/' + gallery_id);
+    return this._http.get(environment.backendURL + 'pictures/car-pictures/' + gallery_id);
   }
 
 }

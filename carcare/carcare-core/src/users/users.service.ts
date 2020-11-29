@@ -2,8 +2,10 @@ import { HttpCode, HttpStatus, Injectable, NotFoundException } from '@nestjs/com
 import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
+import { from, Observable, of } from 'rxjs';
 import { CarPictures, Picture, UserPictures } from 'src/models/pictures.model';
 import { Car, CarDTO, Deadline, DeadlineDTO, DeadlineStatus, Fuel, FuelDTO, Insurance, InsuranceDTO, Repair, RepairDTO, Toll, TollDTO, User } from '../models/user.model';
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class UsersService {
@@ -23,19 +25,28 @@ export class UsersService {
     var user = await this.findUsername(username);
     var userEmail = await this.findEmail(email);
     if (!user && !userEmail) {
+      let encryptedPassword = await this.hashPassword(password).toPromise();
       const newUser = new this.userModel({
         username,
         email,
-        password
+        password: encryptedPassword
       });
       const result = await newUser.save();
-      console.log(result);
       return HttpStatus.CREATED;
     } else {
       return HttpStatus.UNAUTHORIZED;
     }
 
 
+  }
+
+  hashPassword(password: string){
+    return from<string>(bcrypt.hash(password, 5));
+    
+  }
+
+  comparePasswords(newPassword: string, hash: string): Observable <any | boolean>{
+    return of<any | boolean>(bcrypt.compare(newPassword, hash));
   }
 
   async findEmail(email: string): Promise<User> {
@@ -111,9 +122,16 @@ export class UsersService {
       actualCar.refueling = [];
     }
     var index = actualCar.refueling.push(newRefill);
+    actualCar.refueling.sort((a, b) => {
+      let d1 = new Date(a.date); let d2 = new Date(b.date);
+      let same = d1.getTime() === d2.getTime();
+      if (same) return 0;
+      if (d1 > d2) return -1;
+      if (d1 < d2) return 1;
+    });
     const res = await actualUser.save();
     var c = res.cars.find(car => car._id == car_id);
-    return c.refueling[index - 1];
+    return newRefill;
   }
 
   async deleteFuel(user: any, car_id: string, fuel_id: string) {

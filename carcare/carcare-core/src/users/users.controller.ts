@@ -5,7 +5,7 @@ import { UsersService } from './users.service';
 
 
 
-@Controller('user')
+@Controller('api/user')
 export class UsersController {
 
     constructor(private readonly userService: UsersService){}

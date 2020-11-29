@@ -19,5 +19,9 @@ main{
     section{
         max-height: 90%;
         overflow-y: scroll;
+
+        .spacer{
+            height: 80px;
+        }
     }
 }

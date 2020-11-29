@@ -17,7 +17,7 @@ export interface Car {
 
 export interface Fuel {
     _id: string;
-    date: string;
+    date: Date;
     station: string;
     type: FuelType;
     amount: number;
