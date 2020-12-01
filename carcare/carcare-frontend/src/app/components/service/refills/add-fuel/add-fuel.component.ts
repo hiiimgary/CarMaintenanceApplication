@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Car, Currency, Fuel, FuelType } from 'src/app/models/car.model';
 import { CarService } from 'src/app/services/car.service';
+import * as Tesseract from 'tesseract.js';
 
 @Component({
   selector: 'app-add-fuel',
@@ -12,6 +13,7 @@ import { CarService } from 'src/app/services/car.service';
 export class AddFuelComponent implements OnInit {
   car: Car;
   addFuel: FormGroup;
+  bill: File;
   fueltypeOptions = ['gasoline', 'diesel'];
   currencyOptions = ['HUF', 'EUR', 'USD'];
 
@@ -68,6 +70,14 @@ export class AddFuelComponent implements OnInit {
     this.carService.addFuel(refill);
     this.navigateTo('service/fuel');
 
+  }
+
+  onReadBill(event){
+    this.bill = event.target.files[0];
+    console.log('Reading...');
+    Tesseract.recognize(this.bill).then(res => {
+      alert(res.data.text);
+    })
   }
 
   navigateTo(url){

@@ -8,7 +8,7 @@
 
     <section class="add-fuel">
         <h2>New Entry</h2>
-        <form [formGroup]="addFuel" (ngSubmit)="save()">
+        <form [formGroup]="addFuel">
             <div class="form-group">
                 <div class="input">
                     <label for="date">DATE</label>
@@ -95,14 +95,16 @@
             </div>
 
             <div class="btns">
-                <button id="read-bill"> 
+                <button id="read-bill" (click)="readBill.click()"> 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0V0z" fill="none"/><circle cx="12" cy="12" r="3"/><path d="M20 4h-3.17l-1.24-1.35c-.37-.41-.91-.65-1.47-.65H9.88c-.56 0-1.1.24-1.48.65L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
                     <p>Read bill</p>
                 </button>
-                <button id="save" type="submit" [disabled]="addFuel.invalid">Save</button>
+                <button id="save" (click)="save()" [disabled]="addFuel.invalid">Save</button>
             </div>
         </form>
     </section>
+
+    <input style="display: none" type="file" accept="image/*" capture="environment" (change)="onReadBill($event)" #readBill>
 
     <svg (click)="navigateTo('service/fuel')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
 

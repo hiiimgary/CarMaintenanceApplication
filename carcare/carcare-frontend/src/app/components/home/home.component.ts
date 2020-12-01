@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.carService.activeCar.subscribe(car => this.car = car);
     this.user = this.userService.getUser();
-    console.log(this.user);
 
   }
 

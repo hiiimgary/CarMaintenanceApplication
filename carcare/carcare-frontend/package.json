@@ -21,8 +21,10 @@
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
     "@angular/service-worker": "~9.1.6",
+    "@types/tesseract.js": "0.0.2",
     "ngx-image-compress": "^11.0.3",
     "rxjs": "~6.5.4",
+    "tesseract.js": "^2.1.4",
     "tslib": "^1.14.1",
     "zone.js": "~0.10.2"
   },

@@ -40,12 +40,12 @@ export class UsersService {
 
   }
 
-  hashPassword(password: string){
+  hashPassword(password: string) {
     return from<string>(bcrypt.hash(password, 5));
-    
+
   }
 
-  comparePasswords(newPassword: string, hash: string): Observable <any | boolean>{
+  comparePasswords(newPassword: string, hash: string): Observable<any | boolean> {
     return of<any | boolean>(bcrypt.compare(newPassword, hash));
   }
 
@@ -306,7 +306,7 @@ export class UsersService {
     return HttpStatus.OK;
   }
 
-  async markDeadline(user: any, car_id: string, deadline_id: string, status: DeadlineStatus){
+  async markDeadline(user: any, car_id: string, deadline_id: string, status: DeadlineStatus) {
     const actualUser = await this.findUsername(user.username);
     const actualCar = actualUser.cars.find(car => car._id == car_id);
     if (actualCar == null) {
@@ -395,15 +395,13 @@ export class UsersService {
     return userPics;
   }
 
-  // async findCarGallery(id: string): Promise<CarPictures> {
-  //   let carPics;
-  //   try {
-  //     carPics = await this.carPicturesModel.findById(id);
-  //   } catch (error) {
-  //     throw new NotFoundException('Could not find gallery!');
-  //   }
-
-  //   return carPics;
-  // }
+  async getProfilePicture(username: string) {
+    const user = await this.findUsername(username);
+    if (user) {
+      return {picture: user.profile_picture};
+    } else {
+      return HttpStatus.NOT_FOUND;
+    }
+  }
 
 }

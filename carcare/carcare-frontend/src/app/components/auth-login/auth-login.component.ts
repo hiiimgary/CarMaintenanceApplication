@@ -35,7 +35,6 @@ export class AuthLoginComponent implements OnInit {
     const login = this.loginForm.value;
     this.authService.login(login).subscribe(result => {
       const res = result as any;
-      console.log(result);
       localStorage.setItem('access_token', res.access_token);
       localStorage.setItem('cars', JSON.stringify(res.user.cars));
       localStorage.setItem('user', JSON.stringify({username: res.user.username, email: res.user.email, profile_picture: res.user.profile_picture}));

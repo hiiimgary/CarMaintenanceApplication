@@ -18,6 +18,7 @@ import { AuthGuard } from './services/auth.guard';
 import { RepairsComponent } from './components/service/repairs/repairs.component';
 import { AddRepairComponent } from './components/service/repairs/add-repair/add-repair.component';
 import { AddDeadlineComponent } from './components/calendar/add-deadline/add-deadline.component';
+import { CommunityComponent } from './components/home/community/community.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'user', component: BaseComponent, canActivate: [AuthGuard],
     children: [
       {path: 'home', component: HomeComponent},
+      {path: 'home/community', component: CommunityComponent},
       {path: 'garage', component: GarageComponent},
       {path: 'garage/add-car', component: AddCarComponent},
       {path: 'service', component: ServiceComponent},

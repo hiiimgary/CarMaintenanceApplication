@@ -34,6 +34,8 @@ import { AddRepairComponent } from './components/service/repairs/add-repair/add-
 import {NgxImageCompressService} from 'ngx-image-compress';
 import { DeadlineComponent } from './components/calendar/deadline/deadline.component';
 import { AddDeadlineComponent } from './components/calendar/add-deadline/add-deadline.component';
+import { CommunityComponent } from './components/home/community/community.component';
+import { PostComponent } from './components/home/community/post/post.component';
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import { AddDeadlineComponent } from './components/calendar/add-deadline/add-dea
     AddRepairComponent,
     DeadlineComponent,
     AddDeadlineComponent,
+    CommunityComponent,
+    PostComponent,
   ],
   imports: [
     BrowserModule,

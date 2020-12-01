@@ -53,7 +53,6 @@ export class CarComponent implements OnInit {
     this.isPicturesOpen = !this.isPicturesOpen;
     if(this.car.pictures && this.isPicturesOpen){
       this.carsService.getCarPictures(this.car.pictures).subscribe(res => {
-        console.log(res);
         const result = res as any;
         this.pictures = result.pictures;
       });

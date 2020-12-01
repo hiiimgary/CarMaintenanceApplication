@@ -1,0 +1,135 @@
+@import '../../../../theme.scss';
+
+main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: $tile-color;
+    border-radius: 5px;
+
+
+
+    .header{
+        width: 100%;
+        display: flex;
+        position: relative;
+        .profile{
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 5px 0 30px 0;
+            border-bottom: 3px solid $background-color;
+            border-right: 3px solid $background-color;
+            display: flex;
+            justify-content: center;
+            img{
+                height: 100%;
+            }
+        }
+        .delete{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .username-wrapper{
+            p{
+                margin-left: 5px;
+                margin-top: 5px;
+                font-size: $paragraph;
+                color: $primary-darker;
+            }
+        }
+
+    }
+    .content{
+        p{
+            font-size: $paragraph;
+            margin: 10px;
+        }
+    }
+    nav{
+        width: 100%;
+        display: flex;
+
+        button{
+            width: 50%;
+            background: none;
+            outline: none;
+            border: none;
+            font-size: $paragraph;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid $primary-darkest;
+            p{
+                margin-left: 5px;
+                font-size: $paragraph;
+            }
+        }
+        .like{
+            border-radius: 0 0 0 5px;
+        }
+        .comment{
+            border-radius: 0 0 5px 0;
+        }
+    }
+}
+.comments{
+    border-radius: 0 0 5px 5px;
+
+    .comment{
+        background-color: $properties-color;
+        .username-wrapper{
+            width: 100%;
+            display: flex;
+            position: relative;
+        }
+        .profile{
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            img{
+                height: 100%;
+            }
+        }
+        .delete{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .username-wrapper{
+            p{
+                margin-left: 5px;
+                margin-top: 5px;
+                font-size: $paragraph;
+                color: $primary-darker;
+            }
+        }
+    }
+
+    .write-comment{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        input{
+            background: none;
+            outline: none;
+            border: 1px solid $primary-color;
+            border-radius: 5px 0 0 5px;
+            font-size: $paragraph;
+            height: 24px;
+            width: 80%;
+        }
+        button{
+            width: 20%;
+            background-color: $secondary-color;
+            border: none;
+            outline: none;
+            border-radius: 0 5px 5px 0;
+            height: 28px;
+        }
+    }
+}
