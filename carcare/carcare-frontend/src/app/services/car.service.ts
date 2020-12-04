@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Globals } from '../globals';
 import { Car, Currency, Deadline, DeadlineStatus, Fuel, FuelType, Insurance, Repair, Toll } from '../models/car.model';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { IndexedDbService } from './indexed-db.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CarService {
+export class CarService implements OnInit {
   
   defaultCar: Car = {
     _id: '1',
@@ -22,14 +23,19 @@ export class CarService {
     fuel_type: '',
     release_year: '',
   }
-
+  
   private carSource = new BehaviorSubject<Car>(null);
   activeCar = this.carSource.asObservable();
   active: Car;
   cars: Car[];
 
-  constructor(private _http: HttpClient, private _globals: Globals, private _datepipe: DatePipe) { 
+  constructor(private _http: HttpClient, private _globals: Globals, private _datepipe: DatePipe, private indexDB: IndexedDbService) { 
     this.init();
+
+  }
+
+  ngOnInit(){
+
   }
 
   async init(){
@@ -57,11 +63,28 @@ export class CarService {
 
   logout(){
     this.cars = [];
+
   }
 
   changeActiveCar(car: Car){
     this.active = car;
     this.carSource.next(car);
+  }
+
+  setDefault(car_id: string){
+
+    this._http.post(environment.backendURL + 'user/change-default-car', {car_id}).subscribe(res => {
+      if(res == 200){
+        this.cars.forEach(car => {
+          if(car._id == car_id){
+            car.default = true;
+          } else {
+            car.default = false;
+          }
+        });
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+      }
+    })
   }
 
   addFuel(fuel: Fuel){
@@ -82,18 +105,29 @@ export class CarService {
       });
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    },err => {
+      this.indexDB.addFuel(fuel, id).then(res => {
+        this.backgroundSync('add-fuel', res, 'add_fuel');
+      }).catch(console.log);
+      
     })
   }
 
   deleteFuel(fuel_id: string){
     var id = this.active._id;
+    var car = this.cars.find(car => car._id == id);
+    car.refueling =  car.refueling.filter(fuel => fuel._id != fuel_id);
+    localStorage.setItem('cars', JSON.stringify(this.cars));
+    this.changeActiveCar(car);
     this._http.post(environment.backendURL + 'user/delete-fuel', {car_id: id, fuel_id: fuel_id}).subscribe(res => {
       if(res == 200){
-        var car = this.cars.find(car => car._id == id);
-        car.refueling =  car.refueling.filter(fuel => fuel._id != fuel_id);
-        localStorage.setItem('cars', JSON.stringify(this.cars));
-        this.changeActiveCar(car);
+
       }
+    },err => {
+      this.indexDB.deleteFuel(fuel_id, id).then(res => {
+        this.backgroundSync('delete-fuel', res, 'delete_fuel');
+      }).catch(console.log);
+      
     })
   }
 
@@ -108,18 +142,29 @@ export class CarService {
       car.repairs.push(res as Repair);
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    },err => {
+      this.indexDB.addRepair(repair, id).then(res => {
+        this.backgroundSync('add-repair', res, 'add_repair');
+      }).catch(console.log);
+      
     });
   }
 
   deleteRepair(repair_id: string){
     var id = this.active._id;
+    var car = this.cars.find(car => car._id == id);
+    car.repairs =  car.repairs.filter(repair => repair._id != repair_id);
+    localStorage.setItem('cars', JSON.stringify(this.cars));
+    this.changeActiveCar(car);
     this._http.post(environment.backendURL + 'user/delete-repair', {car_id: id, repair_id: repair_id}).subscribe(res => {
       if(res == 200){
-        var car = this.cars.find(car => car._id == id);
-        car.repairs =  car.repairs.filter(repair => repair._id != repair_id);
-        localStorage.setItem('cars', JSON.stringify(this.cars));
-        this.changeActiveCar(car);
+
       }
+    },err => {
+      this.indexDB.deleteRepair(repair_id, id).then(res => {
+        this.backgroundSync('delete-repair', res, 'delete_repair');
+      }).catch(console.log);
+      
     })
   }
 
@@ -146,19 +191,30 @@ export class CarService {
       car.tolls.push(res as Toll);
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    },err => {
+      this.indexDB.addToll(toll, id).then(res => {
+        this.backgroundSync('add-toll', res, 'add_toll');
+      }).catch(console.log);
+      
     }); 
     //TODO: add calendar entry  
   }
 
   deleteToll(toll_id: string){
     var id = this.active._id;
+    var car = this.cars.find(car => car._id == id);
+    car.tolls =  car.tolls.filter(toll => toll._id != toll_id);
+    localStorage.setItem('cars', JSON.stringify(this.cars));
+    this.changeActiveCar(car);
     this._http.post(environment.backendURL + 'user/delete-toll', {car_id: id, toll_id: toll_id}).subscribe(res => {
       if(res == 200){
-        var car = this.cars.find(car => car._id == id);
-        car.tolls =  car.tolls.filter(toll => toll._id != toll_id);
-        localStorage.setItem('cars', JSON.stringify(this.cars));
-        this.changeActiveCar(car);
+
       }
+    },err => {
+      this.indexDB.deleteToll(toll_id, id).then(res => {
+        this.backgroundSync('delete-toll', res, 'delete_toll');
+      }).catch(console.log);
+      
     })
   }
 
@@ -172,6 +228,11 @@ export class CarService {
       car.insurances.push(res as Insurance);
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    },err => {
+      this.indexDB.addInsurance(insurance, id).then(res => {
+        this.backgroundSync('add-insurance', res, 'add_insurance');
+      }).catch(console.log);
+      
     }); 
 
     //TODO: ADD to Calendar
@@ -179,13 +240,19 @@ export class CarService {
 
   deleteInsurance(insurance_id: string){
     var id = this.active._id;
+    var car = this.cars.find(car => car._id == id);
+    car.insurances =  car.insurances.filter(insurance => insurance._id != insurance_id);
+    localStorage.setItem('cars', JSON.stringify(this.cars));
+    this.changeActiveCar(car);
     this._http.post(environment.backendURL + 'user/delete-insurance', {car_id: id, insurance_id: insurance_id}).subscribe(res => {
       if(res == 200){
-        var car = this.cars.find(car => car._id == id);
-        car.insurances =  car.insurances.filter(insurance => insurance._id != insurance_id);
-        localStorage.setItem('cars', JSON.stringify(this.cars));
-        this.changeActiveCar(car);
+
       }
+    },err => {
+      this.indexDB.deleteInsurance(insurance_id, id).then(res => {
+        this.backgroundSync('delete-insurance', res, 'delete_insurance');
+      }).catch(console.log);
+      
     })
   }
 
@@ -216,18 +283,29 @@ export class CarService {
       }
       localStorage.setItem('cars', JSON.stringify(this.cars));
       this.changeActiveCar(car);
+    },err => {
+      this.indexDB.addDeadline(deadline, id).then(res => {
+        this.backgroundSync('add-deadline', res, 'add_deadline');
+      }).catch(console.log);
+      
     }); 
   }
 
   deleteDeadline(deadline_id: string){
     var id = this.active._id;
+    var car = this.cars.find(car => car._id == id);
+    car.calendar =  car.calendar.filter(calendar => calendar._id != deadline_id);
+    localStorage.setItem('cars', JSON.stringify(this.cars));
+    this.changeActiveCar(car);
     this._http.post(environment.backendURL + 'user/delete-deadline', {car_id: id, deadline_id: deadline_id}).subscribe(res => {
       if(res == 200){
-        var car = this.cars.find(car => car._id == id);
-        car.calendar =  car.calendar.filter(calendar => calendar._id != deadline_id);
-        localStorage.setItem('cars', JSON.stringify(this.cars));
-        this.changeActiveCar(car);
+
       }
+    },err => {
+      this.indexDB.deleteDeadline(deadline_id, id).then(res => {
+        this.backgroundSync('delete-deadline', res, 'delete_deadline');
+      }).catch(console.log);
+      
     })
   }
 
@@ -284,6 +362,11 @@ export class CarService {
       if(this.cars.length == 1){
         this.changeActiveCar(this.cars[0]);
       }
+    },err => {
+      this.indexDB.addCar(newcar).then(res => {
+        this.backgroundSync('add-car', res, 'add_car');
+      }).catch(console.log);
+      
     })
   }
 
@@ -309,6 +392,15 @@ export class CarService {
   getCarPictures(gallery_id: string){
 
     return this._http.get(environment.backendURL + 'pictures/car-pictures/' + gallery_id);
+  }
+
+  backgroundSync(callPath: string, key: string, objectStore: string){
+    navigator.serviceWorker.ready.then((swRegistration) => {
+      swRegistration.sync.register(JSON.stringify({path: callPath, key: key, objectStore: objectStore,}))
+    }).catch(console.log);
+
+    
+    
   }
 
 }

@@ -12,6 +12,7 @@ export class RepairComponent implements OnInit {
   @Input() repair: Repair;
   isOpen: boolean = false;
   repairType: string;
+  isPictures: boolean = false;
   constructor(private carService: CarService) { }
 
   ngOnInit(): void {
@@ -24,10 +25,17 @@ export class RepairComponent implements OnInit {
 
   open(){
     this.isOpen = !this.isOpen;
+    if(!this.isOpen){
+      this.isPictures = false;
+    }
   }
 
   delete(){
     this.carService.deleteRepair(this.repair._id);
+  }
+
+  showPictures(){
+    this.isPictures = !this.isPictures;
   }
 
 }

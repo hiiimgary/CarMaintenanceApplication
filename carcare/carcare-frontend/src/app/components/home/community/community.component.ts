@@ -43,4 +43,7 @@ export class CommunityComponent implements OnInit {
     }
   }
 
+  navigateTo(url: string){
+    this.router.navigate(['user/home/' + url]);
+  }
 }

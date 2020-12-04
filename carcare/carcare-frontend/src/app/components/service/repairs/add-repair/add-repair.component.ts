@@ -15,6 +15,7 @@ export class AddRepairComponent implements OnInit {
   addRepair: FormGroup;
   serviceForm: FormGroup;
   currencyEnum = Currency;
+  images: string[] = [];
   keys = Object.keys;
   isDIY: boolean = true;
 
@@ -50,13 +51,28 @@ export class AddRepairComponent implements OnInit {
     })
   }
 
+  onUploadBill(event){
+    let m = this;
+    for(let i = 0; i < event.target.files.length; i++){
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[i]);
+      reader.onload = function () {
+        m.images.push(reader.result as string);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+    }
 
+
+  }
 
 
 
   save(){
     const repair = this.addRepair.value;
     repair.diy = this.isDIY;
+    repair.bills = this.images;
     this.carService.addRepair(repair);
     this.navigateTo('repairs');
   }

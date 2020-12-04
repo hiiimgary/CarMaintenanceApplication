@@ -36,6 +36,9 @@ import { DeadlineComponent } from './components/calendar/deadline/deadline.compo
 import { AddDeadlineComponent } from './components/calendar/add-deadline/add-deadline.component';
 import { CommunityComponent } from './components/home/community/community.component';
 import { PostComponent } from './components/home/community/post/post.component';
+import { MarketplaceComponent } from './components/home/marketplace/marketplace.component';
+import { ItemComponent } from './components/home/marketplace/item/item.component';
+import { AddItemComponent } from './components/home/marketplace/add-item/add-item.component';
 
 
 @NgModule({
@@ -66,13 +69,16 @@ import { PostComponent } from './components/home/community/post/post.component';
     AddDeadlineComponent,
     CommunityComponent,
     PostComponent,
+    MarketplaceComponent,
+    ItemComponent,
+    AddItemComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('service-worker.js', { enabled: environment.production })
   ],
   providers: [
     Globals, 

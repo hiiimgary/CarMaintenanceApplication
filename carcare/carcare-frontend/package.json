@@ -22,10 +22,13 @@
     "@angular/router": "~9.1.6",
     "@angular/service-worker": "~9.1.6",
     "@types/tesseract.js": "0.0.2",
+    "idb": "^5.0.8",
     "ngx-image-compress": "^11.0.3",
+    "pdfmake": "^0.1.68",
     "rxjs": "~6.5.4",
     "tesseract.js": "^2.1.4",
     "tslib": "^1.14.1",
+    "uuid": "^8.3.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

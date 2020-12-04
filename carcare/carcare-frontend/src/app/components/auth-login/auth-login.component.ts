@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CarService } from 'src/app/services/car.service';
+import { IndexedDbService } from 'src/app/services/indexed-db.service';
 
 @Component({
   selector: 'app-auth-login',
@@ -13,7 +15,7 @@ export class AuthLoginComponent implements OnInit {
   loginForm: FormGroup;
   message: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private carService: CarService, private indexDB: IndexedDbService) { }
 
   ngOnInit(): void {
     const user = localStorage.getItem('user');
@@ -36,8 +38,10 @@ export class AuthLoginComponent implements OnInit {
     this.authService.login(login).subscribe(result => {
       const res = result as any;
       localStorage.setItem('access_token', res.access_token);
+      this.indexDB.setJWT(res.access_token).then(res => console.log(res));
       localStorage.setItem('cars', JSON.stringify(res.user.cars));
       localStorage.setItem('user', JSON.stringify({username: res.user.username, email: res.user.email, profile_picture: res.user.profile_picture}));
+      this.carService.init();
       this.router.navigate(['user/home']);
     }, error => {
       this.message = "Invalid Credentials!";

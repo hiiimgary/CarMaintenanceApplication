@@ -104,6 +104,25 @@ export class UsersService {
     return insertedCar;
   }
 
+  async changeActiveCar(user: any, car_id: string){
+    const actualUser = await this.findUsername(user.username);
+    let found = false;
+    actualUser.cars.forEach(car => {
+      if(car._id == car_id){
+        car.default = true;
+        found = true;
+      } else {
+        car.default = false;
+      }
+
+    })
+    if(!found){
+      return HttpStatus.NOT_FOUND;
+    }
+    const save = actualUser.save();
+    return HttpStatus.OK;
+  }
+
   async addFuel(user: any, car_id: string, fuel: FuelDTO) {
     const actualUser = await this.findUsername(user.username);
     const newRefill = new this.FuelModel({
@@ -113,7 +132,8 @@ export class UsersService {
       amount: fuel.amount,
       price: fuel.price,
       currency: fuel.currency,
-      mileage: fuel.mileage
+      mileage: fuel.mileage,
+      bill: fuel.bill
     });
 
     var actualCar = actualUser.cars.find(car => car._id == car_id);
@@ -155,6 +175,7 @@ export class UsersService {
       diy: repair.diy,
       date: repair.date,
       mileage: repair.mileage,
+      bills: repair.bills,
       service: repair.service,
       parts: repair.parts
     });

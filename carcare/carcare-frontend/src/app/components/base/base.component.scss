@@ -27,6 +27,7 @@ main{
         justify-content: space-around;
         align-items: center;
         div{
+            padding-bottom: 10px;
             .active{
                 fill: $active-nav-btn;
             }

@@ -9,7 +9,8 @@ export const FuelSchema = new mongoose.Schema({
     amount: {type: Number, required: true},
     price: {type: Number, required: true},
     currency: {type: String, required: true},
-    mileage: {type: Number, required: true}
+    mileage: {type: Number, required: true},
+    bill: {type: String, required: false}
 });
 
 
@@ -18,6 +19,7 @@ export const RepairSchema = new mongoose.Schema({
     diy: {type: Boolean, required: true},
     date: {type: String, required: true},
     mileage: {type: Number, required: true},
+    bills: {type: [String], required: false},
     service: {
         company_name: {type: String},
         company_address: {type: String},
@@ -134,12 +136,14 @@ export class FuelDTO{
     price: number;
     currency: Currency;
     mileage: number;
+    bill?: string;
 }
 
 export class RepairDTO{
     diy: boolean;
     date: string;
     mileage: number;
+    bills?: string[];
     service?: Service;
     parts?: Part[];
 }
@@ -199,6 +203,8 @@ export interface Fuel extends mongoose.Document {
     price: number;
     currency: Currency;
     mileage: number;
+    bill?: string;
+
 }
 
 export interface Repair extends mongoose.Document {
@@ -206,6 +212,7 @@ export interface Repair extends mongoose.Document {
     diy: boolean;
     date: string;
     mileage: number;
+    bills?: string[];
     service?: Service;
     parts?: Part[];
 }

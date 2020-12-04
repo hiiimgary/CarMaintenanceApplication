@@ -13,7 +13,9 @@ import * as Tesseract from 'tesseract.js';
 export class AddFuelComponent implements OnInit {
   car: Car;
   addFuel: FormGroup;
-  bill: File;
+  bill: string = '';
+  billText: string = '';
+  reading: boolean = false;
   fueltypeOptions = ['gasoline', 'diesel'];
   currencyOptions = ['HUF', 'EUR', 'USD'];
 
@@ -24,7 +26,7 @@ export class AddFuelComponent implements OnInit {
 
     this.addFuel = this.fb.group({
       date: ['', [
-        Validators.required        
+        Validators.required
       ]],
       station: ['', [
         Validators.required,
@@ -54,61 +56,79 @@ export class AddFuelComponent implements OnInit {
     })
   }
 
-  changeFuelType(e){
+  changeFuelType(e) {
     var str = e.target.value.split(" ");
-    this.type.setValue(str[1]);   
+    this.type.setValue(str[1]);
   }
 
-  changeCurrency(e){
+  changeCurrency(e) {
     var str = e.target.value.split(" ");
-    this.currency.setValue(str[1]);    
+    this.currency.setValue(str[1]);
   }
 
-  save(){
-    const refill = this.addFuel.value;
-    refill.date = new Date(refill.date);
-    this.carService.addFuel(refill);
-    this.navigateTo('service/fuel');
+  save() {
+    if(!this.reading){
+      const refill = this.addFuel.value;
+      refill.date = new Date(refill.date);
+      refill.bill = this.bill;
+      this.carService.addFuel(refill);
+      this.navigateTo('service/fuel');
+    }
+
 
   }
 
-  onReadBill(event){
-    this.bill = event.target.files[0];
+  onReadBill(event) {
+    let m = this;
+    var image = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = function () {
+      m.bill = reader.result as string;
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+
     console.log('Reading...');
-    Tesseract.recognize(this.bill).then(res => {
-      alert(res.data.text);
+    this.reading = true;
+    Tesseract.recognize(image).then(res => {
+      console.log(res.data.text);
+      this.billText = res.data.text;
+      this.reading = false;
     })
   }
 
-  navigateTo(url){
+
+  navigateTo(url) {
     this.router.navigate(['user/' + url]);
   }
 
-  get date(){
+  get date() {
     return this.addFuel.get('date');
   }
 
-  get station(){
+  get station() {
     return this.addFuel.get('station');
   }
 
-  get type(){
+  get type() {
     return this.addFuel.get('type');
   }
 
-  get amount(){
+  get amount() {
     return this.addFuel.get('amount');
   }
 
-  get price(){
+  get price() {
     return this.addFuel.get('price');
   }
 
-  get currency(){
+  get currency() {
     return this.addFuel.get('currency');
   }
 
-  get mileage(){
+  get mileage() {
     return this.addFuel.get('mileage');
   }
 }

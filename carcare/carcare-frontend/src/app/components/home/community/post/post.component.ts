@@ -40,7 +40,6 @@ export class PostComponent implements OnInit {
     let now = new Date();
     let posted = new Date(date);
     let minutes = Math.round((now.getTime() - posted.getTime()) / (1000 * 60));
-    console.log(minutes);
     if(minutes > 60){
       let hours = Math.round(minutes/60);
 
@@ -117,6 +116,7 @@ export class PostComponent implements OnInit {
         const comment = res as Comment;
         const user = JSON.parse(localStorage.getItem('user'));
         comment.profile_picture = user.profile_picture;
+        comment.timestamp = this.getTimeStamp(comment.date_of_creation);
         this.post.comments.push(comment);
       }
     })

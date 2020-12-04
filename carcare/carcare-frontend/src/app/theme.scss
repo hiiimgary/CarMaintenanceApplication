@@ -44,6 +44,7 @@ $title: 18px;
                 font-size: $title;
             }
             p{
+                text-align: center;
                 font-size: $title;
             }
         }
@@ -238,6 +239,8 @@ $title: 18px;
             }
         }
 
+
+
         .btns{
             display: flex;
             justify-content: space-around;
@@ -291,21 +294,34 @@ $title: 18px;
     }
 
     section{
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        div{
-            background-color: $tile-color;
-            width: 160px;
-            height: 160px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            h2{
-                font-size: $title;
-                font-weight: normal;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        column-gap: 10px;
+        row-gap: 10px;
+
+        .square{
+            position: relative;
+            width: 100%;
+            &::after{
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+            }
+            .content{
+                position: absolute;
+                background-color: $tile-color;
+                width: 100%;
+                height: 100%;
+                justify-self: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+    
+                h2{
+                    font-size: $title;
+                    font-weight: normal;
+                }
             }
         }
     }

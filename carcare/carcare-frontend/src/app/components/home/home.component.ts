@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
     localStorage.removeItem('user');
     localStorage.removeItem('access_token');
     this.carService.logout();
+    
     this.router.navigate(['']);
   }
 
