@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { Car, Currency } from 'src/app/models/car.model';
 import { CarService } from 'src/app/services/car.service';
 
@@ -15,11 +16,12 @@ export class AddRepairComponent implements OnInit {
   addRepair: FormGroup;
   serviceForm: FormGroup;
   currencyEnum = Currency;
+  compressing: boolean = false;
   images: string[] = [];
   keys = Object.keys;
   isDIY: boolean = true;
 
-  constructor(private fb: FormBuilder, private carService: CarService, private router: Router) { }
+  constructor(private fb: FormBuilder, private carService: CarService, private router: Router, private imageCompress: NgxImageCompressService) { }
 
   ngOnInit(): void {
     this.carService.activeCar.subscribe(car => this.car = car);
@@ -34,7 +36,7 @@ export class AddRepairComponent implements OnInit {
       fee: ['', [
         Validators.required        
       ]],
-      currency: ['', [
+      currency: [Currency.HUF, [
         Validators.required        
       ]]
     });
@@ -53,11 +55,17 @@ export class AddRepairComponent implements OnInit {
 
   onUploadBill(event){
     let m = this;
+    this.compressing = true;
     for(let i = 0; i < event.target.files.length; i++){
       let reader = new FileReader();
       reader.readAsDataURL(event.target.files[i]);
       reader.onload = function () {
-        m.images.push(reader.result as string);
+        m.imageCompress.compressFile(reader.result as string, 1, 50, 50).then(
+          result => {
+            m.images.push(result);
+            m.compressing = false;
+          }
+        );
       };
       reader.onerror = function (error) {
         console.log('Error: ', error);
@@ -92,7 +100,7 @@ export class AddRepairComponent implements OnInit {
       price: ['', [
         Validators.required        
       ]],
-      currency: ['', [
+      currency: [Currency.HUF, [
         Validators.required        
       ]]
     });

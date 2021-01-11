@@ -23,7 +23,7 @@ export class AddTollComponent implements OnInit {
       purchase_date: ['', [
         Validators.required        
       ]],
-      duration: ['', [
+      duration: [this.durations[0], [
         Validators.required
       ]],
       country: ['', [

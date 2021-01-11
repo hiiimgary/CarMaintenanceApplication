@@ -5,7 +5,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthModule } from 'src/auth/auth.module';
-import { CarPicturesSchema, UserPicturesSchema } from 'src/models/pictures.model';
+import { CarPicturesSchema, FuelPictureSchema, RepairPictureSchema, UserPicturesSchema } from 'src/models/pictures.model';
 import { PicturesController } from 'src/pictures/pictures.controller';
 
 @Module({
@@ -18,6 +18,8 @@ import { PicturesController } from 'src/pictures/pictures.controller';
     MongooseModule.forFeature([{name: 'Insurance', schema: InsuranceSchema}]),
     MongooseModule.forFeature([{name: 'Deadline', schema: DeadlineSchema}]),
     MongooseModule.forFeature([{name: 'CarPictures', schema: CarPicturesSchema}]),
+    MongooseModule.forFeature([{name: 'FuelPicture', schema: FuelPictureSchema}]),
+    MongooseModule.forFeature([{name: 'RepairPicture', schema: RepairPictureSchema}]),
     MongooseModule.forFeature([{name: 'UserPictures', schema: UserPicturesSchema}]),
   ],
   providers: [UsersService],
@@ -31,6 +33,8 @@ import { PicturesController } from 'src/pictures/pictures.controller';
     MongooseModule.forFeature([{name: 'Insurance', schema: InsuranceSchema}]),
     MongooseModule.forFeature([{name: 'Deadline', schema: DeadlineSchema}]),
     MongooseModule.forFeature([{name: 'CarPictures', schema: CarPicturesSchema}]),
+    MongooseModule.forFeature([{name: 'FuelPicture', schema: FuelPictureSchema}]),
+    MongooseModule.forFeature([{name: 'RepairPicture', schema: RepairPictureSchema}]),
     MongooseModule.forFeature([{name: 'UserPictures', schema: UserPicturesSchema}]),
   ],
   controllers: [UsersController, PicturesController],

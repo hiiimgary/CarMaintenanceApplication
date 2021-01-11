@@ -30,7 +30,6 @@ function fetchAndSend(tag) {
     let db;
     const request = indexedDB.open('sync-db');
     request.onerror = (event) => {
-        console.log('Cannot use IndexDB');
     };
     request.onsuccess = (event) => {
         db = event.target.result;
@@ -51,7 +50,6 @@ function fetchData(db, tag) {
         const jwtReq = jwtoStore.get('header');
         jwtReq.onsuccess = (e) => {
             sendData(JSON.stringify(request.result), tag, jwtReq.result, db);
-
         }
     };
 }
@@ -70,15 +68,10 @@ function sendData(data, tag, token, db) {
             const transaction = db.transaction(tag.objectStore, 'readwrite');
             const objectStore = transaction.objectStore(tag.objectStore);
             objectStore.delete(tag.key);
-            Promise.resolve(res);
-            
-            
+            Promise.resolve(res);            
         })
         .catch((err) => {
-            console.log(err);
-            Promise.reject();
-            
-            
+            Promise.reject();            
         });
 }
 

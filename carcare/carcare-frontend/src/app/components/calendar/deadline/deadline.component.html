@@ -1,5 +1,5 @@
 <main class="elements_wrapper">
-    <section class="header" >
+    <section class="deadline-header" >
         <div>
             <h2>{{ deadline.deadline | date:'yyyy.MM.dd' }}</h2>
             <p>{{ deadline.title }}</p>
@@ -18,7 +18,7 @@
             <p class="data">{{ deadline.description }}</p>
         </div>
         <div>
-            <p class="property">PRICE</p>
+            <p class="property" *ngIf="deadline.price">PRICE</p>
             <p class="data">{{ deadline.price }} {{deadline.currency}}</p>
         </div>
         <div *ngIf="deadline.repeating">

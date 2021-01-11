@@ -14,7 +14,16 @@ export class RepairsComponent implements OnInit {
   constructor(private carService: CarService, private router: Router) { }
 
   ngOnInit(): void {
-    this.carService.activeCar.subscribe(car => this.car = car);
+    this.carService.activeCar.subscribe(car => {
+      this.car = car;
+      car.repairs.sort((a, b) => {
+        let d1 = new Date(a.date); let d2 = new Date(b.date);
+        let same = d1.getTime() === d2.getTime();
+        if (same) return 0;
+        if (d1 > d2) return -1;
+        if (d1 < d2) return 1;
+      });
+    });
   }
 
   navigateTo(url: string){

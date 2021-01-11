@@ -32,7 +32,7 @@ export class AddDeadlineComponent implements OnInit {
         Validators.required
       ]],
       description: '',
-      status: ['', [
+      status: [DeadlineStatus.pending, [
         Validators.required
       ]],
       repeating: ['', [
@@ -40,12 +40,8 @@ export class AddDeadlineComponent implements OnInit {
       days: null,
       months: null,
       years: null,
-      price: ['', [
-        Validators.required
-      ]],
-      currency: ['', [
-        Validators.required
-      ]],
+      price: [''],
+      currency: [Currency.HUF],
     })
   }
 

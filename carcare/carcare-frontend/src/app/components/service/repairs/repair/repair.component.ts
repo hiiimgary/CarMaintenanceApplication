@@ -13,6 +13,7 @@ export class RepairComponent implements OnInit {
   isOpen: boolean = false;
   repairType: string;
   isPictures: boolean = false;
+  pictures: string[] = [];
   constructor(private carService: CarService) { }
 
   ngOnInit(): void {
@@ -36,6 +37,14 @@ export class RepairComponent implements OnInit {
 
   showPictures(){
     this.isPictures = !this.isPictures;
+    if(this.isPictures && this.repair.bills){
+      this.carService.getRepairBill(this.repair.bills).subscribe(res => {
+        if(res != 404){
+          const pics = res as any;
+          this.pictures = pics.pictures;
+        }
+      })
+    }
   }
 
 }

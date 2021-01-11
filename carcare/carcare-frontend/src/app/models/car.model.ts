@@ -37,7 +37,7 @@ export interface Repair{
     diy: boolean;
     date: Date;
     mileage: number;
-    bills?: string[];
+    bills?: string;
     service?: Service;
     parts?: Part[];
 }
@@ -66,7 +66,7 @@ export enum Currency {
 export interface Toll {
     _id: string;
     purchase_date: Date;
-    expiration: string;
+    expiration: Date;
     duration: string;
     region: string;
     country: string;

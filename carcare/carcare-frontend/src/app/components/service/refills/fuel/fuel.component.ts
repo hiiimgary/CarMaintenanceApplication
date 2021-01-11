@@ -14,6 +14,7 @@ export class FuelComponent implements OnInit {
   consumption: number;
   isOpen: boolean = false;
   isPicture: boolean = false;
+  picture: string = '';
   constructor(private carService: CarService) { }
 
   ngOnInit(): void {
@@ -31,6 +32,14 @@ export class FuelComponent implements OnInit {
 
   showPicture(){
     this.isPicture = !this.isPicture;
+    if(this.fuel.bill && this.isPicture){
+      this.carService.getFuelBill(this.fuel.bill).subscribe(res => {
+        if(res != 404){
+          const pic = res as any;
+          this.picture = pic.picture;
+        }
+      })
+    }
   }
 
   delete(){

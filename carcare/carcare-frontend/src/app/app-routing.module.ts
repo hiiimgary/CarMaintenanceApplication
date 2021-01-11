@@ -19,6 +19,7 @@ import { RepairsComponent } from './components/service/repairs/repairs.component
 import { AddRepairComponent } from './components/service/repairs/add-repair/add-repair.component';
 import { AddDeadlineComponent } from './components/calendar/add-deadline/add-deadline.component';
 import { CommunityComponent } from './components/home/community/community.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
     children: [
       {path: 'home', component: HomeComponent},
       {path: 'home/community', component: CommunityComponent},
+      {path: 'home/profile', component: ProfileComponent},
       {path: 'garage', component: GarageComponent},
       {path: 'garage/add-car', component: AddCarComponent},
       {path: 'service', component: ServiceComponent},
@@ -41,7 +43,8 @@ const routes: Routes = [
       {path: 'service/insurances/add-insurance', component: AddInsuranceComponent},
       {path: 'calendar', component: CalendarComponent},
       {path: 'calendar/add-deadline', component: AddDeadlineComponent},
-    ]},
+    ]
+  },
 ];
 
 @NgModule({

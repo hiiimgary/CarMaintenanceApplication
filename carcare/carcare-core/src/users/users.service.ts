@@ -3,8 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
 import { from, Observable, of } from 'rxjs';
-import { CarPictures, Picture, UserPictures } from 'src/models/pictures.model';
+import { CarPictures, FuelPicture, Picture, RepairPicture, UserPictures } from 'src/models/pictures.model';
 import { Car, CarDTO, Deadline, DeadlineDTO, DeadlineStatus, Fuel, FuelDTO, Insurance, InsuranceDTO, Repair, RepairDTO, Toll, TollDTO, User } from '../models/user.model';
+
+const Tesseract = require('tesseract.js');
 const bcrypt = require('bcrypt');
 
 @Injectable()
@@ -19,6 +21,8 @@ export class UsersService {
     @InjectModel('Insurance') private readonly InsuranceModel: Model<Insurance>,
     @InjectModel('Deadline') private readonly DeadlineModel: Model<Deadline>,
     @InjectModel('UserPictures') private readonly userPicturesModel: Model<UserPictures>,
+    @InjectModel('FuelPicture') private readonly fuelPictureModel: Model<FuelPicture>,
+    @InjectModel('RepairPicture') private readonly repairPictureModel: Model<RepairPicture>,
     @InjectModel('CarPictures') private readonly carPicturesModel: Model<CarPictures>) { }
 
   async registerUser(username: string, email: string, password: string) {
@@ -31,6 +35,15 @@ export class UsersService {
         email,
         password: encryptedPassword
       });
+
+      const newUserGallery = new this.userPicturesModel({
+        username: username,
+        cars: []
+      });
+      const res = await newUserGallery.save();
+      newUser.pictures = res._id;
+
+
       const result = await newUser.save();
       return HttpStatus.CREATED;
     } else {
@@ -38,6 +51,20 @@ export class UsersService {
     }
 
 
+  }
+
+  async changePassword(username: string, password: string, new_password: string){
+    const user = await this.findUsername(username);
+    if(user){
+      let match = await this.comparePasswords(password, user.password).toPromise();
+      if(match){
+        let newPass = await this.hashPassword(new_password).toPromise();
+        user.password = newPass;
+        await user.save();
+        return HttpStatus.OK
+      }
+    }
+    return HttpStatus.UNAUTHORIZED;
   }
 
   hashPassword(password: string) {
@@ -84,7 +111,6 @@ export class UsersService {
   }
 
   async addCar(user: any, car: CarDTO) {
-    console.log(user, car);
     const actualUser = await this.findUsername(user.username);
     const newCar = new this.CarModel({
       default: car.default,
@@ -95,20 +121,52 @@ export class UsersService {
       vin: car.vin,
       release_year: car.release_year
     })
+
+    const userGallery = await this.getUserGallery(user.username);
+    const newCarGallery = new this.carPicturesModel({
+      car_id: newCar._id,
+      pictures: [],
+      repair_bills: [],
+      fuel_bills: []
+    });
+    userGallery.cars.push(newCarGallery);
+    await userGallery.save();
+
+    newCar.pictures = newCarGallery._id;
+
     if (actualUser.cars == undefined) {
       actualUser.cars = [];
     }
     var length = actualUser.cars.push(newCar);
-    const result = await actualUser.save();
-    var insertedCar = result.cars[length - 1];
-    return insertedCar;
+    await actualUser.save();
+
+    return newCar;
   }
 
-  async changeActiveCar(user: any, car_id: string){
+  async updateCar(user: any, car_id: string, carUpdate: CarDTO){
+    const actualUser = await this.findUsername(user.username);
+    if(actualUser){
+      const car = actualUser.cars.find(car => car._id == car_id);
+      if(car){
+        car.license_plate = carUpdate.license_plate;
+        car.brand = carUpdate.brand;
+        car.car_model = carUpdate.car_model;
+        car.fuel_type = carUpdate.fuel_type;
+        car.vin = carUpdate.vin;
+        car.release_year = carUpdate.release_year;
+
+        await actualUser.save();
+        return HttpStatus.OK;
+      }
+    }
+    return HttpStatus.BAD_REQUEST;
+  }
+
+  async changeActiveCar(user: any, car_id: string) {
     const actualUser = await this.findUsername(user.username);
     let found = false;
     actualUser.cars.forEach(car => {
-      if(car._id == car_id){
+      if (car._id == car_id) {
         car.default = true;
         found = true;
       } else {
@@ -116,7 +174,7 @@ export class UsersService {
       }
 
     })
-    if(!found){
+    if (!found) {
       return HttpStatus.NOT_FOUND;
     }
     const save = actualUser.save();
@@ -133,8 +191,25 @@ export class UsersService {
       price: fuel.price,
       currency: fuel.currency,
       mileage: fuel.mileage,
-      bill: fuel.bill
+      bill: null
     });
+
+    if (fuel.bill) {
+      const userGallery = await this.getUserGallery(user.username);
+      const carGallery = userGallery.cars.find(car => car.car_id == car_id);
+      const fuelPicture = new this.fuelPictureModel({
+        picture: fuel.bill
+      })
+
+      newRefill.bill = fuelPicture._id;
+
+      if (!carGallery.fuel_bills) {
+        carGallery.fuel_bills = [];
+      }
+      carGallery.fuel_bills.push(fuelPicture);
+
+      await userGallery.save();
+    }
 
     var actualCar = actualUser.cars.find(car => car._id == car_id);
 
@@ -145,7 +220,13 @@ export class UsersService {
     actualCar.refueling.sort((a, b) => {
       let d1 = new Date(a.date); let d2 = new Date(b.date);
       let same = d1.getTime() === d2.getTime();
-      if (same) return 0;
+      if (same) {
+        if(a.mileage > b.mileage){
+          return -1;
+        } else {
+          return 1;
+        }
+      }
       if (d1 > d2) return -1;
       if (d1 < d2) return 1;
     });
@@ -164,6 +245,13 @@ export class UsersService {
     if (fuel == null) {
       return HttpStatus.BAD_REQUEST;
     }
+    if (fuel.bill != null) {
+      const userGallery = await this.getUserGallery(user.username);
+      const carGallery = userGallery.cars.find(car => car.car_id == car_id);
+      const picture = carGallery.fuel_bills.find(f => f._id == fuel.bill);
+      await picture.remove();
+      await userGallery.save();
+    }
     const del = await fuel.remove();
     const res = await actualUser.save();
     return HttpStatus.OK;
@@ -175,10 +263,28 @@ export class UsersService {
       diy: repair.diy,
       date: repair.date,
       mileage: repair.mileage,
-      bills: repair.bills,
+      bills: null,
       service: repair.service,
       parts: repair.parts
     });
+
+    if (repair.bills) {
+      const userGallery = await this.getUserGallery(user.username);
+      const carGallery = userGallery.cars.find(car => car.car_id == car_id);
+      const repairPicture = new this.repairPictureModel({
+        pictures: repair.bills
+      });
+
+      newRepair.bills = repairPicture._id;
+
+      if (!carGallery.repair_bills) {
+        carGallery.repair_bills = [];
+      }
+      carGallery.repair_bills.push(repairPicture);
+
+      await userGallery.save();
+    }
+
     var actualCar = actualUser.cars.find(car => car._id == car_id);
     if (actualCar.repairs == null || actualCar.repairs == undefined) {
       actualCar.repairs = [];
@@ -199,6 +305,15 @@ export class UsersService {
     if (repair == null || repair == undefined) {
       return HttpStatus.BAD_REQUEST;
     }
+
+    if (repair.bills != null) {
+      const userGallery = await this.getUserGallery(user.username);
+      const carGallery = userGallery.cars.find(car => car.car_id == car_id);
+      const picture = carGallery.repair_bills.find(f => f._id == repair.bills);
+      await picture.remove();
+      await userGallery.save();
+    }
+
     const del = await repair.remove();
     const res = await actualUser.save();
     return HttpStatus.OK;
@@ -293,22 +408,13 @@ export class UsersService {
       years: deadline.years
     });
     var actualCar = actualUser.cars.find(car => car._id == car_id);
-
     if (actualCar.calendar == null || actualCar.calendar == undefined) {
       actualCar.calendar = [];
     }
 
     actualCar.calendar.push(newDeadline);
-    actualCar.calendar.sort((a, b) => {
-      let d1 = new Date(a.deadline); let d2 = new Date(b.deadline);
-      let same = d1.getTime() === d2.getTime();
-      if (same) return 0;
-      if (d1 > d2) return 1;
-      if (d1 < d2) return -1;
-    });
 
     const res = await actualUser.save();
-    var c = res.cars.find(car => car._id == car_id);
     return newDeadline;
   }
 
@@ -354,55 +460,64 @@ export class UsersService {
   }
 
   async carPictures(user: any, car_gallery_id: string) {
+    const gallery = await this.getCarGallery(user, car_gallery_id);
+    if (!gallery) {
+      return HttpStatus.NOT_FOUND;
+    } else {
+      return gallery.pictures;
+    }
+  }
+
+  async getCarGallery(user: any, car_gallery_id: string) {
     const gallery = await this.getUserGallery(user.username);
     const car = gallery.cars.find(car => car._id == car_gallery_id);
     if (!car) {
-      return HttpStatus.BAD_REQUEST;
+      return null;
     } else {
       return car;
     }
   }
 
+  async getFuelBill(user: any, car_gallery_id: string, picture_id: string) {
+    const carPictures = await this.getCarGallery(user, car_gallery_id);
+    if (!carPictures) {
+      return HttpStatus.NOT_FOUND;
+    }
+    const pic = carPictures.fuel_bills.find(f => f._id == picture_id);
+    if (pic) {
+      return pic;
+    } else {
+      return HttpStatus.NOT_FOUND;
+    }
+  }
+
+  async getRepairBill(user: any, car_gallery_id: string, picture_id: string) {
+    const carPictures = await this.getCarGallery(user, car_gallery_id);
+    if (!carPictures) {
+      return HttpStatus.NOT_FOUND;
+    }
+    const pic = carPictures.repair_bills.find(f => f._id == picture_id);
+    if (pic) {
+      return pic;
+    } else {
+      return HttpStatus.NOT_FOUND;
+    }
+  }
+
   async addCarPicture(user: any, car_gallery_id: string, car_id: string, picture: Picture) {
     const userGallery = await this.getUserGallery(user.username);
-    if (!car_gallery_id) {
-      const newCarGallery = new this.carPicturesModel({
-        car_id: car_id,
-        pictures: []
-      });
-      newCarGallery.pictures.push(picture);
-      userGallery.cars.push(newCarGallery);
-      const res = userGallery.save();
-      const actualUser = await this.findUsername(user.username);
-      const car = actualUser.cars.find(car => car._id == car_id);
-      car.pictures = newCarGallery._id;
-      const u = actualUser.save();
-      return newCarGallery._id;
-    } else {
-      const car = userGallery.cars.find(car => car._id == car_gallery_id);
-      car.pictures.push(picture);
-      const res = await userGallery.save();
-      return HttpStatus.OK;
-    }
+    const car = userGallery.cars.find(car => car._id == car_gallery_id);
+    car.pictures.push(picture);
+    await userGallery.save();
+    return HttpStatus.OK;
+
   }
 
   async getUserGallery(username: string) {
     const actualUser = await this.findUsername(username);
-    if (!actualUser.pictures) {
-      const newUserGallery = new this.userPicturesModel({
-        username: username,
-        cars: []
-      });
-      const res = await newUserGallery.save();
-      actualUser.pictures = res._id;
 
-      const user = await actualUser.save();
-      return res;
-    } else {
-      const userGallery = await this.findUserGallery(actualUser.pictures);
-      return userGallery;
-    }
-
+    const userGallery = await this.findUserGallery(actualUser.pictures);
+    return userGallery;
   }
 
   async findUserGallery(id: string): Promise<UserPictures> {
@@ -419,7 +534,7 @@ export class UsersService {
   async getProfilePicture(username: string) {
     const user = await this.findUsername(username);
     if (user) {
-      return {picture: user.profile_picture};
+      return { picture: user.profile_picture };
     } else {
       return HttpStatus.NOT_FOUND;
     }

@@ -28,8 +28,8 @@
             <div class="form-group">
                 <div class="input">
                     <label for="fuel_type">FUEL TYPE</label>
-                    <select class="input-field" (change)="changeFuelType($event)" formControlName="fuel_type" name="fuel_type">
-                        <option *ngFor="let fuel of fueltypeOptions" [ngValue]="fuel" >{{ fuel }}</option>
+                    <select class="input-field" formControlName="fuel_type" name="fuel_type">
+                        <option *ngFor="let c of keys(fuelTypeEnum)" [ngValue]="fuelTypeEnum[c]" >{{ fuelTypeEnum[c] }}</option>
                     </select>
                 </div>
 
@@ -72,7 +72,8 @@
             </div>
 
             <div class="btns">
-                <button id="save" type="submit" [disabled]="addCar.invalid">Add Car</button>
+                <p class="message">{{ msg }}</p>
+                <button id="save" type="submit" [disabled]="addCar.invalid">{{ btnMsg }}</button>
             </div>
         </form>
     </section>

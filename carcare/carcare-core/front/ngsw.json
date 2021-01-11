@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1607125057536,
+  "timestamp": 1607554024702,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -14,15 +14,15 @@
         "/6-es5.6a853254bbace755a059.js",
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.73bdd4bc8b57a9ff2ced.js",
-        "/main-es5.73bdd4bc8b57a9ff2ced.js",
+        "/main-es2015.6c02b624ef20b7e3fcb1.js",
+        "/main-es5.6c02b624ef20b7e3fcb1.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.f332a089ad1600448873.js",
         "/polyfills-es5.d9ad007bdbefd9453af1.js",
         "/runtime-es2015.e67dd39a694c6d112f4b.js",
         "/runtime-es5.e67dd39a694c6d112f4b.js",
         "/service-worker.js",
-        "/styles.fcaa05da9db02c8529cd.css"
+        "/styles.3fa29d3ae46285a93584.css"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Poppins",
@@ -100,16 +100,16 @@
     "/assets/static/offline.html": "b1224c7d5382800fbc24b92d6fa85fd0d04eb7ab",
     "/background.78db356a088615b89b42.jpg": "c80b7e6128269a9e30183fedb01b6eb3664be2b1",
     "/favicon.ico": "45af9bcf960a256bd8870b89164a9ba8f18b39e8",
-    "/index.html": "c8e598d1571d20641c3e581c3bca341369ea369f",
-    "/main-es2015.73bdd4bc8b57a9ff2ced.js": "b3f17a2ce80627a6463eb82c060f883856c45ad1",
-    "/main-es5.73bdd4bc8b57a9ff2ced.js": "4ff86e2ad39764219b35563cecc1de600202c26d",
+    "/index.html": "d41fb6d893411225ebb33e1b4ca21f60925b93bd",
+    "/main-es2015.6c02b624ef20b7e3fcb1.js": "c69cc7b076e12c3849db3ca71586da490b5f554a",
+    "/main-es5.6c02b624ef20b7e3fcb1.js": "d744eff6dd3085fdc5ac2482b9f4347a43f7fc19",
     "/manifest.webmanifest": "8f128b1ff8722cf75a3fd060a6e912c9ec142b53",
     "/polyfills-es2015.f332a089ad1600448873.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/polyfills-es5.d9ad007bdbefd9453af1.js": "8aa26ea87b9958c6bd13b7c257c0e9940438e684",
     "/runtime-es2015.e67dd39a694c6d112f4b.js": "945c504c3684f0744ef12be6ad50a5651bdb85c4",
     "/runtime-es5.e67dd39a694c6d112f4b.js": "31befb6c69a713a6893c4ad1a90b1477279a65ab",
-    "/service-worker.js": "91dd2cf787417ce6bcd624cdf41e551fda94cac2",
-    "/styles.fcaa05da9db02c8529cd.css": "5bee5db06b96f028c12f85348dc7751057917a12"
+    "/service-worker.js": "fec88cd8c36ad5daa76493e62d9fa76c2e617b51",
+    "/styles.3fa29d3ae46285a93584.css": "aef4c07e2f904c394d72a1e579892a3e20da65b4"
   },
   "navigationUrls": [
     {

@@ -3,7 +3,7 @@
         <h2>Repairs</h2>
         <p>{{ car.license_plate }}</p>
     </div>
-    <div *ngIf="car.refueling == undefined || car.refueling == null || car.refueling.length == 0" id="no-data">
+    <div *ngIf="car.repairs == undefined || car.repairs == null || car.repairs.length == 0" id="no-data">
         <p>No data found</p>
     </div>
     <section>

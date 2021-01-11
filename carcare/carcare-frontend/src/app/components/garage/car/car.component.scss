@@ -45,6 +45,7 @@ main{
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             .property{
                 color: $primary-darker;
             }
@@ -78,17 +79,24 @@ main{
             width: 100%;
             display: grid;
             grid-template-columns: 1fr;
+            row-gap: 2px;
+            height: auto;
+
             .car-picture{
                 margin: 0;
                 //width: 50%;
                 overflow: hidden;
+                height: auto;
+
                 div{
                     margin: 0;
                     //width: 50%;
                     border: 1px solid $properties-color;
-
+                    height: auto;
                     img{
+                        border-radius: 5px;
                         width: 100%;
+                        height: auto !important;
                     }
                 }
 

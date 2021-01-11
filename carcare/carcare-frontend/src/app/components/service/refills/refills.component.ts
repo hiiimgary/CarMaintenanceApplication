@@ -15,15 +15,25 @@ export class RefillsComponent implements OnInit {
   constructor(private carService: CarService, private router: Router) { }
 
   ngOnInit(): void {
-    this.carService.activeCar.subscribe(car => this.car = car);
-    for(let i = 0; i < this.car.refueling.length; i++){
-      let d = new Date(this.car.refueling[i].date)
-      this.years.push(d.getFullYear().toString());
-    }
-    let yearSet = new Set(this.years);
-    this.years = [...yearSet];
-    
-    this.calculateLongTermConsumption();
+    this.carService.activeCar.subscribe(car => {
+      this.car = car;
+      for(let i = 0; i < this.car.refueling.length; i++){
+        let d = new Date(this.car.refueling[i].date)
+        this.years.push(d.getFullYear().toString());
+      }
+      this.years.sort((a, b) => {
+        if (a == b) return 0;
+        if (a > b) return -1;
+        if (a < b) return 1;
+      });
+      let yearSet = new Set(this.years);
+      this.years = [...yearSet];
+      if(this.car.refueling.length > 1){
+        this.calculateLongTermConsumption();
+
+      }
+    });
+
   }
 
   calculateLongTermConsumption(){

@@ -3,6 +3,7 @@
 .profile-page{
     width: 100%;
     height: 100%;
+    position: relative;
     .header{
         width: 100%;
         display: flex;
@@ -21,14 +22,21 @@
 
     .profile-details{
         background-color: $tile-color;
-        border-radius: 5px;
         padding: 10px;
         display: flex;
         #profile-picture{
             width: 100px;
             height: 100px;
+            overflow: hidden;
             border-radius: 50px;
             background-color: $properties-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img{
+                height: 100px;
+            }
         }
         .properties{
             padding-left: 10px;
@@ -49,5 +57,82 @@
                 }
             }
         }
+    }
+
+    .change-password{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: $tile-color;
+
+        h2{
+            font-size: $header;
+            font-weight: normal;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group{
+            //background-color: red;
+            display: flex;
+            flex-direction: column;
+            //align-items: center;
+            width: 100%;
+            label{
+                padding-left: 15px;
+                font-size: $paragraph;
+                color: $primary-darker;
+            }
+            input{
+                height: 40px;
+                background: none;
+                border: 1px solid $primary-color;
+                border-radius: 15px;
+                outline: none;
+                padding-left: 10px;
+                font-size: $title;
+                
+                
+            }
+            div{
+                height: 20px;
+                display: flex;
+                justify-content: flex-end;
+                span{
+                    font-size: $paragraph;
+                    color: $error;
+                    text-align: right;
+                    padding-right: 15px;
+                }
+            }
+        }
+        .btn-wrapper{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            p{
+                font-size: $paragraph;
+                color: $primary-darker;
+            }
+        }
+        button{
+            background-color: $secondary-color;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            width: 140px;
+            height: 50px;
+            font-size: $title;
+        }
+        button[disabled]{
+            background-color: $properties-color;
+        }
+    }
+
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
     }
 }

@@ -40,6 +40,8 @@ main{
         }
         .properties{
             padding-left: 10px;
+            position: relative;
+
             .property{
                 display: flex;
                 flex-direction: column;
@@ -55,6 +57,11 @@ main{
                 .value{
                     font-size: $paragraph;
                 }
+            }
+            svg{
+                position: absolute;
+                top: 0;
+                right: 0;
             }
         }
     }

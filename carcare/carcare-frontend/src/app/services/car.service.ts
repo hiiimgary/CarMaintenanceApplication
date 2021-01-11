@@ -3,7 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Globals } from '../globals';
-import { Car, Currency, Deadline, DeadlineStatus, Fuel, FuelType, Insurance, Repair, Toll } from '../models/car.model';
+import { Car, Currency, Deadline, DeadlineStatus, Fuel, FuelType, Insurance, Interval, Repair, Toll } from '../models/car.model';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { IndexedDbService } from './indexed-db.service';
@@ -71,6 +71,10 @@ export class CarService implements OnInit {
     this.carSource.next(car);
   }
 
+  getCar(id: string){
+    return this.cars.find(car => car._id == id);
+  }
+
   setDefault(car_id: string){
 
     this._http.post(environment.backendURL + 'user/change-default-car', {car_id}).subscribe(res => {
@@ -99,7 +103,13 @@ export class CarService implements OnInit {
       car.refueling.sort((a, b) => {
         let d1 = new Date(a.date); let d2 = new Date(b.date);
         let same = d1.getTime() === d2.getTime();
-        if (same) return 0;
+        if (same) {
+          if(a.mileage > b.mileage){
+            return -1;
+          } else {
+            return 1;
+          }
+        }
         if (d1 > d2) return -1;
         if (d1 < d2) return 1;
       });
@@ -182,7 +192,7 @@ export class CarService implements OnInit {
       }
       default: { console.log('wrong format'); break; }
     }
-    toll.expiration = this._datepipe.transform(expiration, 'yyyy.MM.dd');
+    toll.expiration = expiration;
     this._http.post(environment.backendURL + 'user/add-toll', {car_id: id, toll: toll}).subscribe(res => {
       var car = this.cars.find(car => car._id == id);
       if(!car.tolls){
@@ -197,7 +207,18 @@ export class CarService implements OnInit {
       }).catch(console.log);
       
     }); 
-    //TODO: add calendar entry  
+
+    const deadline = {
+      _id: null,
+      deadline: expiration,
+      title: 'Toll',
+      description: toll.country + ' - ' + toll.region + ' toll expiration',
+      price: null,
+      currency: null,
+      status: DeadlineStatus.pending,
+      repeating: false
+    }
+    this.addDeadline(deadline, id);
   }
 
   deleteToll(toll_id: string){
@@ -235,7 +256,28 @@ export class CarService implements OnInit {
       
     }); 
 
-    //TODO: ADD to Calendar
+    let months = null; 
+    let years = null;
+    if(insurance.interval == Interval.quarterly){
+      months = 3;
+    } else if(insurance.interval == Interval.yearly){
+      years = 1;
+    }
+
+    const deadline = {
+      _id: null,
+      deadline: insurance.first_deadline,
+      title: "Insurance",
+      description: insurance.service_provider + " Insurance",
+      price: insurance.fee,
+      currency: insurance.currency,
+      status: DeadlineStatus.pending,
+      repeating: true,
+      days: null,
+      months: months,
+      years: years
+    }
+    this.addDeadline(deadline, id);
   }
 
   deleteInsurance(insurance_id: string){
@@ -260,6 +302,7 @@ export class CarService implements OnInit {
     var id;
     if(car_id){
       id = car_id;
+      console.log(id);
     } else {
       id = this.active._id;
     }
@@ -370,6 +413,24 @@ export class CarService implements OnInit {
     })
   }
 
+  async updateCar(car_id: string, carUpdate: Car){
+    const result = await this._http.post(environment.backendURL + 'user/update-car', {car_id, car: carUpdate}).toPromise();
+    if(result == 200){
+      const car = this.cars.find(car => car._id == car_id);
+      if(car){
+        car.license_plate = carUpdate.license_plate;
+        car.brand = carUpdate.brand;
+        car.car_model = carUpdate.car_model;
+        car.fuel_type = carUpdate.fuel_type;
+        car.vin = carUpdate.vin;
+        car.release_year = carUpdate.release_year;
+        localStorage.setItem('cars', JSON.stringify(this.cars));
+        return true;
+      }
+    }
+    return false;
+  }
+
   UploadPicture(car: Car, picture: string){
     let now = new Date();
     const date = this._datepipe.transform(now, 'yyyy.MM.dd h:mm');
@@ -394,6 +455,14 @@ export class CarService implements OnInit {
     return this._http.get(environment.backendURL + 'pictures/car-pictures/' + gallery_id);
   }
 
+  getFuelBill(picture_id: string){
+    return this._http.get(environment.backendURL + 'pictures/car-pictures/fuel/' + this.active.pictures + '/' + picture_id);
+  }
+
+  getRepairBill(picture_id: string){
+    return this._http.get(environment.backendURL + 'pictures/car-pictures/repair/' + this.active.pictures + '/' + picture_id);
+  }
+  
   backgroundSync(callPath: string, key: string, objectStore: string){
     navigator.serviceWorker.ready.then((swRegistration) => {
       swRegistration.sync.register(JSON.stringify({path: callPath, key: key, objectStore: objectStore,}))
