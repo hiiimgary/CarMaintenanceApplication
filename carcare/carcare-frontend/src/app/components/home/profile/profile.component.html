@@ -5,7 +5,7 @@
 
     <section class="profile-details">
         <div id="profile-picture">
-
+            <img [src]="user.profile_picture">
         </div>
 
         <div class="properties">
@@ -20,5 +20,44 @@
 
         </div>
     </section>
+
+    <section class="change-password">
+        <h2>Change Password</h2>
+        <form [formGroup]="changePassword" (ngSubmit)="savePassword()">
+            <div class="form-group">
+                <label for="password">OLD PASSWORD</label>
+                <input type="password" class="input-field" formControlName="password" name="password">
+                <div>
+                    <span *ngIf="password.invalid && password.touched">Old password is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="new_password">NEW PASSWORD</label>
+                <input type="password" class="input-field" formControlName="new_password" name="new_password">
+                <div>
+                    <span *ngIf="new_password.invalid && new_password.touched">New Password is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_new_password">CONFIRM NEW PASSWORD</label>
+                <input type="password" class="input-field" formControlName="confirm_new_password" name="confirm_new_password">
+                <div>
+                    <span *ngIf="confirm_new_password.invalid && confirm_new_password.touched">New passwords must match</span>
+                </div>
+            </div>
+            <div class="btn-wrapper">
+                <p>{{ msg }}</p>
+                <button type="submit" [disabled]="changePassword.invalid">Save</button>
+            </div>
+        </form>
+
+    </section>
+
+    
+    <svg (click)="navigateTo('')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+    
+
 </main>
 

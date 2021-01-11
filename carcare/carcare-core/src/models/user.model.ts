@@ -19,7 +19,7 @@ export const RepairSchema = new mongoose.Schema({
     diy: {type: Boolean, required: true},
     date: {type: String, required: true},
     mileage: {type: Number, required: true},
-    bills: {type: [String], required: false},
+    bills: {type: String, required: false},
     service: {
         company_name: {type: String},
         company_address: {type: String},
@@ -212,7 +212,7 @@ export interface Repair extends mongoose.Document {
     diy: boolean;
     date: string;
     mileage: number;
-    bills?: string[];
+    bills?: string;
     service?: Service;
     parts?: Part[];
 }

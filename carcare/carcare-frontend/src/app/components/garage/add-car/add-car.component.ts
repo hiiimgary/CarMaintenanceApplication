@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FuelType } from 'src/app/models/car.model';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -9,11 +10,17 @@ import { CarService } from 'src/app/services/car.service';
   styleUrls: ['./add-car.component.scss']
 })
 export class AddCarComponent implements OnInit {
-  fueltypeOptions = ['Gasoline', 'Diesel', 'Electric'];
+  fuelTypeEnum = FuelType;
+  keys = Object.keys;
   addCar: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router, private carsService: CarService) { }
+  carId: string = null;
+  msg: string = '';
+  btnMsg: string = 'Add Car';
+  constructor(private fb: FormBuilder, private router: Router, private carsService: CarService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.carId = this.route.snapshot.paramMap.get('id');
+
     this.addCar = this.fb.group(
       {
         license_plate: ['', [
@@ -25,7 +32,7 @@ export class AddCarComponent implements OnInit {
         car_model: ['',[
           Validators.required
         ]],
-        fuel_type: ['', [
+        fuel_type: [FuelType.gasoline, [
           Validators.required
         ]],
         vin: ['',[
@@ -41,12 +48,33 @@ export class AddCarComponent implements OnInit {
           Validators.max(2020)
         ]]
     });
+
+    if(this.carId){
+      this.btnMsg = 'Update';
+      const car = this.carsService.getCar(this.carId);
+      this.license_plate.setValue(car.license_plate);
+      this.brand.setValue(car.brand);
+      this.car_model.setValue(car.car_model);
+      this.fuel_type.setValue(car.fuel_type == FuelType.gasoline ? FuelType.gasoline : FuelType.diesel);
+      this.vin.setValue(car.vin);
+      this.release_year.setValue(car.release_year);
+    }
   }
 
   submit(){
     const car = this.addCar.value;
-    this.carsService.addCar(car);
-    this.navigateTo('garage');
+    if(this.carId){
+      this.carsService.updateCar(this.carId, car).then(res => {
+        if(res){
+          this.navigateTo('garage');
+        } else {
+          this.msg = "COULDN'T UPDATE";
+        }
+      })
+    } else {
+      this.carsService.addCar(car);
+      this.navigateTo('garage');
+    }
   }
 
   navigateTo(url: string){

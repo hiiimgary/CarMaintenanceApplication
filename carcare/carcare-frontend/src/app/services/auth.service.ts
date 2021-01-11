@@ -18,6 +18,10 @@ export class AuthService {
     return this._http.post(environment.backendURL + "auth/registration", user);
   }
 
+  changePassword(payload: {password: string, new_password: string}){
+    return this._http.post(environment.backendURL + "auth/change-password", payload);
+  }
+
   isLoggedin(){
     return !!localStorage.getItem('access_token');
   }

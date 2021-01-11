@@ -26,13 +26,13 @@ export class AddInsuranceComponent implements OnInit {
       service_provider: ['', [
         Validators.required        
       ]],
-      type: ['', [
+      type: [InsuranceType.ThirdPartyOnly, [
         Validators.required
       ]],
       first_deadline: ['', [
         Validators.required
       ]],
-      interval: ['', [
+      interval: [Interval.quarterly, [
         Validators.required
       ]],
       bonus_malus: ['', [
@@ -40,7 +40,7 @@ export class AddInsuranceComponent implements OnInit {
       fee: ['', [
         Validators.required
       ]],
-      currency: ['', [
+      currency: [Currency.HUF, [
         Validators.required
       ]],
     })

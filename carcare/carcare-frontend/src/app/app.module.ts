@@ -39,6 +39,8 @@ import { PostComponent } from './components/home/community/post/post.component';
 import { MarketplaceComponent } from './components/home/marketplace/marketplace.component';
 import { ItemComponent } from './components/home/marketplace/item/item.component';
 import { AddItemComponent } from './components/home/marketplace/add-item/add-item.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
+
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { AddItemComponent } from './components/home/marketplace/add-item/add-ite
     AuthRegisterComponent,
     BaseComponent,
     HomeComponent,
+    ProfileComponent,
     GarageComponent,
     ServiceComponent,
     CalendarComponent,

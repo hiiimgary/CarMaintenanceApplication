@@ -6,6 +6,8 @@ import { Picture } from 'src/app/models/user.model';
 import { CarExportService } from 'src/app/services/car-export.service';
 import { CarService } from 'src/app/services/car.service';
 
+
+
 @Component({
   selector: 'app-car',
   templateUrl: './car.component.html',
@@ -61,7 +63,7 @@ export class CarComponent implements OnInit {
     if(this.car.pictures && this.isPicturesOpen){
       this.carsService.getCarPictures(this.car.pictures).subscribe(res => {
         const result = res as any;
-        this.pictures = result.pictures;
+        this.pictures = result;
       });
     }
   }
@@ -72,6 +74,10 @@ export class CarComponent implements OnInit {
 
   navigateTo(url: string){
       this.router.navigate(['/user/garage/car/' + url]);
+  }
+
+  editCar(){
+    this.router.navigate(['/user/garage/add-car', {id: this.car._id}]);
   }
 
 }

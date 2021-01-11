@@ -1,9 +1,8 @@
 <main class="elements_wrapper">
-    <section class="header" >
+    <section class="toll-header" >
         <div>
-            <h2>{{ toll.country }}</h2>
+            <h2> {{ toll.expiration | date:'yyyy.MM.dd'}}</h2>
             <p>{{ toll.region }}</p>
-            <p> {{ toll.expiration }}</p>
         </div>
 
 
@@ -17,7 +16,7 @@
         </div>
         <div>
             <p class="property">EXPIRATION</p>
-            <p class="data">{{ toll.expiration }}</p>
+            <p class="data">{{ toll.expiration | date:'yyyy.MM.dd'}}</p>
         </div>
         <div>
             <p class="property">DURATION</p>

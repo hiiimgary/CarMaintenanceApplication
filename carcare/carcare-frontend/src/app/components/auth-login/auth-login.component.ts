@@ -38,11 +38,15 @@ export class AuthLoginComponent implements OnInit {
     this.authService.login(login).subscribe(result => {
       const res = result as any;
       localStorage.setItem('access_token', res.access_token);
-      this.indexDB.setJWT(res.access_token).then(res => console.log(res));
       localStorage.setItem('cars', JSON.stringify(res.user.cars));
       localStorage.setItem('user', JSON.stringify({username: res.user.username, email: res.user.email, profile_picture: res.user.profile_picture}));
-      this.carService.init();
-      this.router.navigate(['user/home']);
+      this.indexDB.setUpDB().then(r => {
+        this.indexDB.setJWT(res.access_token);
+      });
+
+      this.carService.init().then(r => {
+        this.router.navigate(['user/home']);
+      });
     }, error => {
       this.message = "Invalid Credentials!";
     });

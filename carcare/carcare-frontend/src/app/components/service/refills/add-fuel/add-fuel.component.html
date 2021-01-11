@@ -1,5 +1,3 @@
-
-
 <main class="add-page">
     <div class="add-page-header">
         <h2>Refill</h2>
@@ -7,7 +5,6 @@
     </div>
 
     <section class="add-fuel">
-        <h2>New Entry</h2>
         <form [formGroup]="addFuel">
             <div class="form-group">
                 <div class="input">
@@ -35,7 +32,7 @@
                 <div class="input">
                     <label for="type">FUEL TYPE</label>
                     <select class="input-field" (change)="changeFuelType($event)" formControlName="type" name="type">
-                        <option *ngFor="let fuel of fueltypeOptions" [ngValue]="fuel" >{{ fuel }}</option>
+                        <option *ngFor="let fuel of fueltypeOptions" [ngValue]="fuel">{{ fuel }}</option>
                     </select>
                 </div>
 
@@ -48,7 +45,7 @@
                 <div class="input">
                     <label for="amount">AMOUNT</label>
                     <div class="input-field">
-                        <input type="number"  formControlName="amount" name="amount">
+                        <input type="number" formControlName="amount" name="amount">
                         <p>Litre</p>
                     </div>
 
@@ -64,9 +61,9 @@
                     <div class="input">
                         <label for="price">PRICE</label>
                         <div class="input-field">
-                            <input type="number"  formControlName="price" name="price">
-                            <select class="input-field" (change)="changeCurrency($event)"  formControlName="currency" name="currency">
-                                <option *ngFor="let currency of currencyOptions" [ngValue]="currency" >{{ currency }}</option>
+                            <input type="number" formControlName="price" name="price">
+                            <select class="input-field" formControlName="currency" name="currency" id="currency">
+                                <option *ngFor="let c of keys(currencyEnum)" [ngValue]="currencyEnum[c]" >{{ currencyEnum[c] }}</option>
                             </select>
                         </div>
 
@@ -83,7 +80,7 @@
                 <div class="input">
                     <label for="mileage">MILEAGE</label>
                     <div class="input-field">
-                        <input type="number"  formControlName="mileage" name="mileage">
+                        <input type="number" formControlName="mileage" name="mileage">
                         <p>km</p>
                     </div>
 
@@ -94,21 +91,48 @@
                 </div>
             </div>
 
+
+
+            <div class="radio-wrapper">
+                <p>TEXT DETECTION</p>
+                <div class="radio-button" name="radio">
+                    <button class="radio1" [disabled]="ocrEnabled" (click)="ocrEnabled = true">ON</button>
+                    <button class="radio2" [disabled]="!ocrEnabled" (click)="ocrEnabled = false">OFF</button>
+                </div>
+            </div>
+
+
+            <div *ngIf="billCompressed" class="picture-wrapper">
+                <img [src]="billCompressed">
+            </div>
             <div class="btns">
-                <button id="read-bill" (click)="readBill.click()"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0V0z" fill="none"/><circle cx="12" cy="12" r="3"/><path d="M20 4h-3.17l-1.24-1.35c-.37-.41-.91-.65-1.47-.65H9.88c-.56 0-1.1.24-1.48.65L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                <button id="read-bill" (click)="readBill.click()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M20 4h-3.17l-1.24-1.35c-.37-.41-.91-.65-1.47-.65H9.88c-.56 0-1.1.24-1.48.65L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
+                        </svg>
                     <p>Read bill</p>
                 </button>
-                <button id="save" (click)="save()" [disabled]="addFuel.invalid || reading">Save</button>
+                <button id="save" (click)="save()" [disabled]="addFuel.invalid || reading || compressing">Save</button>
+            </div>
+            <div class="progress-bar" *ngIf="ocrEnabled && reading">
+                <div class="progress" [style.width.%]="progress"></div>
             </div>
         </form>
 
 
     </section>
 
-    <input style="display: none" type="file" accept="image/*" capture="environment" (change)="onReadBill($event)" #readBill>
+    <input style="display: none" type="file" accept="image/*" capture="environment" (change)="onReadBill($event)"
+        #readBill>
 
-    <svg (click)="navigateTo('service/fuel')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="56px" height="56px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+    <svg (click)="navigateTo('service/fuel')" class="back" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        fill="white" width="56px" height="56px">
+        <path
+            d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z" />
+        </svg>
 
 
 </main>

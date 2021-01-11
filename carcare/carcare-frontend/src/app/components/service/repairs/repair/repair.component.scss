@@ -45,11 +45,15 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
+    height: auto;
+
     div{
-        width: 90%;
-        overflow: hidden;
+        height: auto;
+        
         img{
+            border-radius: 5px;
             width: 100%;
+            height: auto !important;
         }
     }
 }

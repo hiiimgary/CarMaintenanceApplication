@@ -16,6 +16,13 @@ export class UsersController {
         const res = await this.userService.addCar(req.user, car);
         return res;
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('update-car')
+    async updateCar(@Req() req ,@Body() {car, car_id}){
+        const res = await this.userService.updateCar(req.user, car_id, car);
+        return res;
+    }
     
 
     @UseGuards(JwtAuthGuard)
@@ -28,10 +35,11 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @Post('add-fuel')
     async addFuel(@Req() req ,@Body() {car_id, fuel}){
-        console.log(req.user, car_id, fuel);
         const res = await this.userService.addFuel(req.user, car_id, fuel);
         return res;
     }
+
+
 
     @UseGuards(JwtAuthGuard)
     @Post('delete-fuel')

@@ -9,7 +9,7 @@
     <section>
 
         <div *ngFor="let t of car.tolls">
-            <app-toll [toll]="t"></app-toll>
+            <app-toll [toll]="t" *ngIf="!isExpired(t.expiration)"></app-toll>
         </div>
 
         <div class="spacer"></div>

@@ -92,7 +92,6 @@ interface SyncDB extends DBSchema {
 export class IndexedDbService {
   private db: IDBPDatabase<SyncDB>;
   constructor() {
-    this.setUpDB();
   }
 
   async setUpDB(){

@@ -8,62 +8,43 @@
     color: $primary-darker;
 }
 
-.image{
-    width: 90%;
-    padding-right: 10px;
-    display: flex;
-    justify-content: center;
-    img{
-        width: 100%;
+.image-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+
+    .image{
+        height: auto;
+
+        img{
+            width: 100%;
+            border-radius: 5px;
+            height: auto !important;
+        }
     }
 }
-// main{
-//     margin-top: 10px;
-//     border-radius: 5px;
-//     background-color: $tile_color;
-//     .header{
 
-//         height: 60px;
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         align-items: center;
-//         padding-left: 5px;
-//         div{
-//             height: 100%;
-//             width: 100%;
-//             display: flex;
-//             margin-left: 20px;
-//             margin-right: 20px;
-//             justify-content: space-between;
-//             align-items: center;
-//             h2{
-//                 font-family: 'Montserrat', sans-serif;
-//                 font-weight: normal;
-//                 font-size: $title;
-//             }
-//             p{
-//                 font-size: $title;
-//             }
-//         }
+.fuel-header{
+    height: 60px;
+    display: grid;
+    align-content: center;
+    grid-template-columns: 1fr 36px;
+    div{
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        margin-left: 20px;
+        h2{
+            font-family: 'Montserrat', sans-serif;
+            font-weight: normal;
+            font-size: $title;
+        }
+        p{
+            text-align: center;
+            font-size: $title;
+        }
+    }
+    svg{
 
-//     }
-//     .properties{
-//         background-color: $properties-color;
-//         padding-top: 10px;
-//         padding-bottom: 10px;
-//         border-radius: 0 0 5px 5px;
-//         div{
-//             margin-left: 10px;
-//             margin-right: 10px;
-//             margin-bottom: 10px;
-//             display: flex;
-//             justify-content: space-between;
-//         }
-//         .icons{
-//             display: flex;
-//             justify-content: center;
-//             margin-top: 20px;
-//         }
-//     }
-// }
+    }
+}
