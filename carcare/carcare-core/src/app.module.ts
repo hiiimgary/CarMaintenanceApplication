@@ -13,13 +13,12 @@ import { CommunityService } from './community/community.service';
 import { CommunityModule } from './community/community.module';
 import { UsersService } from './users/users.service';
 
-//'mongodb+srv://hiimgary:bc5nwmCFW54pWBe@database.nzfdb.mongodb.net/carcare-db?retryWrites=true&w=majority'
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'front'),
     }),
-    MongooseModule.forRoot('mongodb+srv://hiimgary:bc5nwmCFW54pWBe@database.nzfdb.mongodb.net/carcare-db?retryWrites=true&w=majority'),
+    MongooseModule.forRoot('MongoDB Credentials'),
     AuthModule,
     UsersModule,
     CommunityModule,
