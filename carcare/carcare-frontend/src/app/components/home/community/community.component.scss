@@ -1,0 +1,88 @@
+@import '../../../theme.scss';
+
+.community-page{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    .header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        h2{
+            font-size: $header;
+            color: $primary-darker;
+            font-weight: normal;
+        }
+        .users{
+            display: flex;
+            align-items: center;
+            background-color: $tile-color;
+            padding: 5px;
+            border-radius: 5px;
+            p{
+                margin-left: 5px;
+                font-size: $title;
+            }
+        }
+    }
+
+    section{
+        overflow-y: scroll;
+        max-height: 100%;
+        .post-wrapper{
+            .post{
+                margin-top: 10px;
+            }
+        }
+
+        .write-post{
+            margin-top: 20px;
+            width: 100%;
+            background-color: $tile-color;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            textarea{
+                background: none;
+                resize: none;
+                width: 90%;
+                outline: none;
+                border: 1px solid $primary-color;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                font-size: $paragraph;
+            }
+            div{
+                width: 90%;
+                display: flex;
+                justify-content: flex-end;
+                #add-post{
+                    background-color: $secondary-color;
+                    border: none;
+                    border-radius: 5px;
+                    outline: none;
+                    width: 150px;
+                    height: 50px;
+                    font-size: $title;
+                }
+            }
+
+
+
+        }
+        .spacer{
+            height: 150px;
+        }
+
+    }
+    .back{
+        position: absolute;
+        bottom: 20px;
+        left: 5px;
+        transform: rotate(180deg);
+    }
+}

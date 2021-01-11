@@ -6,7 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { map } from 'rxjs/operators';
 
 
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
 
     constructor(private readonly authService: AuthService, private readonly userService: UsersService) {}

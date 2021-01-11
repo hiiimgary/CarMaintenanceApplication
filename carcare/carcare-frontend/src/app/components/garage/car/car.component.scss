@@ -52,18 +52,39 @@ main{
 
             }
         }
+        .default{
+            margin-top: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            button{
+                background: none;
+                outline: none;
+                border: 2px solid $primary-darker;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 40px;
+                height: 40px;
+                
+                svg{
+                    fill: $primary-darker;
+                }
+            }
+        }
 
         .car-pictures{
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr;
             .car-picture{
                 margin: 0;
-                width: 50%;
+                //width: 50%;
                 overflow: hidden;
                 div{
                     margin: 0;
-                    width: 100%;
+                    //width: 50%;
                     border: 1px solid $properties-color;
 
                     img{

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Car } from 'src/app/models/car.model';
 import { Picture } from 'src/app/models/user.model';
+import { CarExportService } from 'src/app/services/car-export.service';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class CarComponent implements OnInit {
   isPicturesOpen: boolean = false;
   active: boolean = false;
   pictures: Picture[] = [];
-  constructor(private carsService: CarService, private router: Router, private imageCompress: NgxImageCompressService) { }
+  constructor(private carsService: CarService, private router: Router, private imageCompress: NgxImageCompressService, private carExport: CarExportService) { }
 
   ngOnInit(): void {
     this.carsService.activeCar.subscribe(active => {
@@ -32,6 +33,12 @@ export class CarComponent implements OnInit {
     this.isOpen = !this.isOpen;
     if(!this.isOpen) {
       this.isPicturesOpen = false;
+    }
+  }
+
+  setDefault(){
+    if(!this.car.default){
+      this.carsService.setDefault(this.car._id);
     }
   }
 
@@ -53,11 +60,14 @@ export class CarComponent implements OnInit {
     this.isPicturesOpen = !this.isPicturesOpen;
     if(this.car.pictures && this.isPicturesOpen){
       this.carsService.getCarPictures(this.car.pictures).subscribe(res => {
-        console.log(res);
         const result = res as any;
         this.pictures = result.pictures;
       });
     }
+  }
+
+  exportCar(){
+    this.carExport.generateCarExport(this.car);
   }
 
   navigateTo(url: string){

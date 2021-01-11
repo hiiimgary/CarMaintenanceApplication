@@ -1,0 +1,32 @@
+html, body {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+
+
+*{
+    margin: 0; 
+    font-family: Poppins;
+    color: rgb(155, 155, 155);
+}
+
+body{
+    background-color: #141822;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-conn{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+h2{
+    font-weight: normal;
+}
+svg{
+    fill:  rgb(155, 155, 155);
+}

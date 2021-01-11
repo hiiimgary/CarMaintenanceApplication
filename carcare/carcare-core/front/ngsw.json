@@ -1,0 +1,132 @@
+{
+  "configVersion": 1,
+  "timestamp": 1607125057536,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/5-es2015.c87ff82a1ee2f416fe8d.js",
+        "/5-es5.c87ff82a1ee2f416fe8d.js",
+        "/6-es2015.6a853254bbace755a059.js",
+        "/6-es5.6a853254bbace755a059.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.73bdd4bc8b57a9ff2ced.js",
+        "/main-es5.73bdd4bc8b57a9ff2ced.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.f332a089ad1600448873.js",
+        "/polyfills-es5.d9ad007bdbefd9453af1.js",
+        "/runtime-es2015.e67dd39a694c6d112f4b.js",
+        "/runtime-es5.e67dd39a694c6d112f4b.js",
+        "/service-worker.js",
+        "/styles.fcaa05da9db02c8529cd.css"
+      ],
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Poppins",
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css2\\?family=Montserrat:wght@500&display=swap",
+        "https:\\/\\/fonts\\.gstatic\\.com\\/.*"
+      ]
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/images/background.jpg",
+        "/assets/nav-icons/add-black-48dp.svg",
+        "/assets/nav-icons/calendar.svg",
+        "/assets/nav-icons/construction-white-36dp.svg",
+        "/assets/nav-icons/create-black-36dp.svg",
+        "/assets/nav-icons/favorite-24px.svg",
+        "/assets/nav-icons/favorite_border-24px.svg",
+        "/assets/nav-icons/favorite_border-white-18dp.svg",
+        "/assets/nav-icons/garage.svg",
+        "/assets/nav-icons/home.svg",
+        "/assets/nav-icons/insert_photo-white-36dp.svg",
+        "/assets/nav-icons/keyboard_arrow_right-black-36dp.svg",
+        "/assets/nav-icons/local_bar-white-18dp.svg",
+        "/assets/nav-icons/local_gas_station-white-36dp.svg",
+        "/assets/nav-icons/miscellaneous_services-24px.svg",
+        "/assets/nav-icons/payments-white-36dp.svg",
+        "/assets/nav-icons/photo_camera-black-36dp.svg",
+        "/assets/nav-icons/service.svg",
+        "/assets/nav-icons/share-white-36dp.svg",
+        "/assets/nav-icons/store-white-36dp.svg",
+        "/assets/nav-icons/theaters-24px.svg",
+        "/assets/nav-icons/toll-white-36dp.svg",
+        "/assets/static/offline-style.css",
+        "/assets/static/offline.html",
+        "/background.78db356a088615b89b42.jpg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/5-es2015.c87ff82a1ee2f416fe8d.js": "f35ec48784e38da3d580769950c74f21ebfe13b3",
+    "/5-es5.c87ff82a1ee2f416fe8d.js": "7b3d977129a6822fee7a383b3990b6bf1ebc023e",
+    "/6-es2015.6a853254bbace755a059.js": "925d1553ccc09879bb901c6ef873c2ed52f350b6",
+    "/6-es5.6a853254bbace755a059.js": "925d1553ccc09879bb901c6ef873c2ed52f350b6",
+    "/assets/icons/icon-192x192.png": "27bbc182c2240aa2a6e841fa68a2929a5da47b7f",
+    "/assets/icons/icon-512x512.png": "66f4d2137184ec5558846d83704f83bc2ff00384",
+    "/assets/images/background.jpg": "c80b7e6128269a9e30183fedb01b6eb3664be2b1",
+    "/assets/nav-icons/add-black-48dp.svg": "e85cbfa86c44cdee1c82af6154af0b71fb315caf",
+    "/assets/nav-icons/calendar.svg": "9d914b63af4c39e229c8601f76f72e04aa14b9d8",
+    "/assets/nav-icons/construction-white-36dp.svg": "3b34a0124b79ae7b4eedd7bde2af0bd5989bedcf",
+    "/assets/nav-icons/create-black-36dp.svg": "f9b1c345af15a4898444d850ed9248c9077f6e56",
+    "/assets/nav-icons/favorite-24px.svg": "f31c3de7a6c643afefd25e31493003ce85c97bb0",
+    "/assets/nav-icons/favorite_border-24px.svg": "048afca667d9ee66e5171aa01bfb26eaf2de4353",
+    "/assets/nav-icons/favorite_border-white-18dp.svg": "a4e38d30a614bba72ca54164d2c4e448464bd088",
+    "/assets/nav-icons/garage.svg": "c22fe415c8c8e65169f3b249ff0edb66d5f5525d",
+    "/assets/nav-icons/home.svg": "f3f2a7069cb489a9d465fa2162c75e52a871de27",
+    "/assets/nav-icons/insert_photo-white-36dp.svg": "71925c849d76ec9524ebde8ed92f463750396011",
+    "/assets/nav-icons/keyboard_arrow_right-black-36dp.svg": "ba9eef45c4a02c083156e629881de526af8afdaf",
+    "/assets/nav-icons/local_bar-white-18dp.svg": "247cb327190cf411eafb0956b1cc6a016f1d877a",
+    "/assets/nav-icons/local_gas_station-white-36dp.svg": "802b72f958b65f21c9cdb6776697319073c39ea3",
+    "/assets/nav-icons/miscellaneous_services-24px.svg": "68d814a6cfc8d07d46b3c960d4ebb022c44f13c8",
+    "/assets/nav-icons/payments-white-36dp.svg": "643483ea86596631fa43553c2f69454e561cb1ad",
+    "/assets/nav-icons/photo_camera-black-36dp.svg": "b7502b4e598b5d90039f0c7a568d4061b60afc22",
+    "/assets/nav-icons/service.svg": "fe3f2591c0aae9c8e80f3adeb57be93b023cb154",
+    "/assets/nav-icons/share-white-36dp.svg": "2cffe84c7a4919d16c96e8c4b090d3f33aca8d00",
+    "/assets/nav-icons/store-white-36dp.svg": "9dffb7ace49882e9dfadfb560be09eb428a248d0",
+    "/assets/nav-icons/theaters-24px.svg": "25ec94c4d369076c476a32d12cbce515c8228b27",
+    "/assets/nav-icons/toll-white-36dp.svg": "8dd6602ba72702ad03e37fe02c7a8f1e42d59edd",
+    "/assets/static/offline-style.css": "e3aafc5ca371eaa797d20ab1624f0b3386bd6d37",
+    "/assets/static/offline.html": "b1224c7d5382800fbc24b92d6fa85fd0d04eb7ab",
+    "/background.78db356a088615b89b42.jpg": "c80b7e6128269a9e30183fedb01b6eb3664be2b1",
+    "/favicon.ico": "45af9bcf960a256bd8870b89164a9ba8f18b39e8",
+    "/index.html": "c8e598d1571d20641c3e581c3bca341369ea369f",
+    "/main-es2015.73bdd4bc8b57a9ff2ced.js": "b3f17a2ce80627a6463eb82c060f883856c45ad1",
+    "/main-es5.73bdd4bc8b57a9ff2ced.js": "4ff86e2ad39764219b35563cecc1de600202c26d",
+    "/manifest.webmanifest": "8f128b1ff8722cf75a3fd060a6e912c9ec142b53",
+    "/polyfills-es2015.f332a089ad1600448873.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
+    "/polyfills-es5.d9ad007bdbefd9453af1.js": "8aa26ea87b9958c6bd13b7c257c0e9940438e684",
+    "/runtime-es2015.e67dd39a694c6d112f4b.js": "945c504c3684f0744ef12be6ad50a5651bdb85c4",
+    "/runtime-es5.e67dd39a694c6d112f4b.js": "31befb6c69a713a6893c4ad1a90b1477279a65ab",
+    "/service-worker.js": "91dd2cf787417ce6bcd624cdf41e551fda94cac2",
+    "/styles.fcaa05da9db02c8529cd.css": "5bee5db06b96f028c12f85348dc7751057917a12"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

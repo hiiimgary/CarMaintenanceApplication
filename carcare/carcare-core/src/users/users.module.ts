@@ -21,7 +21,18 @@ import { PicturesController } from 'src/pictures/pictures.controller';
     MongooseModule.forFeature([{name: 'UserPictures', schema: UserPicturesSchema}]),
   ],
   providers: [UsersService],
-  exports: [UsersService],
+  exports: [
+    UsersService,
+    MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
+    MongooseModule.forFeature([{name: 'Car', schema: CarSchema}]),
+    MongooseModule.forFeature([{name: 'Fuel', schema: FuelSchema}]),
+    MongooseModule.forFeature([{name: 'Repair', schema: RepairSchema}]),
+    MongooseModule.forFeature([{name: 'Toll', schema: TollSchema}]),
+    MongooseModule.forFeature([{name: 'Insurance', schema: InsuranceSchema}]),
+    MongooseModule.forFeature([{name: 'Deadline', schema: DeadlineSchema}]),
+    MongooseModule.forFeature([{name: 'CarPictures', schema: CarPicturesSchema}]),
+    MongooseModule.forFeature([{name: 'UserPictures', schema: UserPicturesSchema}]),
+  ],
   controllers: [UsersController, PicturesController],
 })
 export class UsersModule {}

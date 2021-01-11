@@ -2,8 +2,10 @@ import { HttpCode, HttpStatus, Injectable, NotFoundException } from '@nestjs/com
 import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
+import { from, Observable, of } from 'rxjs';
 import { CarPictures, Picture, UserPictures } from 'src/models/pictures.model';
 import { Car, CarDTO, Deadline, DeadlineDTO, DeadlineStatus, Fuel, FuelDTO, Insurance, InsuranceDTO, Repair, RepairDTO, Toll, TollDTO, User } from '../models/user.model';
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class UsersService {
@@ -23,19 +25,28 @@ export class UsersService {
     var user = await this.findUsername(username);
     var userEmail = await this.findEmail(email);
     if (!user && !userEmail) {
+      let encryptedPassword = await this.hashPassword(password).toPromise();
       const newUser = new this.userModel({
         username,
         email,
-        password
+        password: encryptedPassword
       });
       const result = await newUser.save();
-      console.log(result);
       return HttpStatus.CREATED;
     } else {
       return HttpStatus.UNAUTHORIZED;
     }
 
 
+  }
+
+  hashPassword(password: string) {
+    return from<string>(bcrypt.hash(password, 5));
+
+  }
+
+  comparePasswords(newPassword: string, hash: string): Observable<any | boolean> {
+    return of<any | boolean>(bcrypt.compare(newPassword, hash));
   }
 
   async findEmail(email: string): Promise<User> {
@@ -93,6 +104,25 @@ export class UsersService {
     return insertedCar;
   }
 
+  async changeActiveCar(user: any, car_id: string){
+    const actualUser = await this.findUsername(user.username);
+    let found = false;
+    actualUser.cars.forEach(car => {
+      if(car._id == car_id){
+        car.default = true;
+        found = true;
+      } else {
+        car.default = false;
+      }
+
+    })
+    if(!found){
+      return HttpStatus.NOT_FOUND;
+    }
+    const save = actualUser.save();
+    return HttpStatus.OK;
+  }
+
   async addFuel(user: any, car_id: string, fuel: FuelDTO) {
     const actualUser = await this.findUsername(user.username);
     const newRefill = new this.FuelModel({
@@ -102,7 +132,8 @@ export class UsersService {
       amount: fuel.amount,
       price: fuel.price,
       currency: fuel.currency,
-      mileage: fuel.mileage
+      mileage: fuel.mileage,
+      bill: fuel.bill
     });
 
     var actualCar = actualUser.cars.find(car => car._id == car_id);
@@ -111,9 +142,16 @@ export class UsersService {
       actualCar.refueling = [];
     }
     var index = actualCar.refueling.push(newRefill);
+    actualCar.refueling.sort((a, b) => {
+      let d1 = new Date(a.date); let d2 = new Date(b.date);
+      let same = d1.getTime() === d2.getTime();
+      if (same) return 0;
+      if (d1 > d2) return -1;
+      if (d1 < d2) return 1;
+    });
     const res = await actualUser.save();
     var c = res.cars.find(car => car._id == car_id);
-    return c.refueling[index - 1];
+    return newRefill;
   }
 
   async deleteFuel(user: any, car_id: string, fuel_id: string) {
@@ -137,6 +175,7 @@ export class UsersService {
       diy: repair.diy,
       date: repair.date,
       mileage: repair.mileage,
+      bills: repair.bills,
       service: repair.service,
       parts: repair.parts
     });
@@ -288,7 +327,7 @@ export class UsersService {
     return HttpStatus.OK;
   }
 
-  async markDeadline(user: any, car_id: string, deadline_id: string, status: DeadlineStatus){
+  async markDeadline(user: any, car_id: string, deadline_id: string, status: DeadlineStatus) {
     const actualUser = await this.findUsername(user.username);
     const actualCar = actualUser.cars.find(car => car._id == car_id);
     if (actualCar == null) {
@@ -377,15 +416,13 @@ export class UsersService {
     return userPics;
   }
 
-  // async findCarGallery(id: string): Promise<CarPictures> {
-  //   let carPics;
-  //   try {
-  //     carPics = await this.carPicturesModel.findById(id);
-  //   } catch (error) {
-  //     throw new NotFoundException('Could not find gallery!');
-  //   }
-
-  //   return carPics;
-  // }
+  async getProfilePicture(username: string) {
+    const user = await this.findUsername(username);
+    if (user) {
+      return {picture: user.profile_picture};
+    } else {
+      return HttpStatus.NOT_FOUND;
+    }
+  }
 
 }

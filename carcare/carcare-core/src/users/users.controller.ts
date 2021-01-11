@@ -5,7 +5,7 @@ import { UsersService } from './users.service';
 
 
 
-@Controller('user')
+@Controller('api/user')
 export class UsersController {
 
     constructor(private readonly userService: UsersService){}
@@ -16,10 +16,19 @@ export class UsersController {
         const res = await this.userService.addCar(req.user, car);
         return res;
     }
+    
+
+    @UseGuards(JwtAuthGuard)
+    @Post('change-default-car')
+    async changeActiveCar(@Req() req ,@Body() {car_id}){
+        const res = await this.userService.changeActiveCar(req.user, car_id);
+        return res;
+    }
 
     @UseGuards(JwtAuthGuard)
     @Post('add-fuel')
     async addFuel(@Req() req ,@Body() {car_id, fuel}){
+        console.log(req.user, car_id, fuel);
         const res = await this.userService.addFuel(req.user, car_id, fuel);
         return res;
     }

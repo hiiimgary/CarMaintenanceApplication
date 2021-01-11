@@ -19,6 +19,10 @@
             margin-bottom: 30px;
         }
 
+        label{
+            color: $primary-darker;
+        }
+
         .radio-button{
             width: 100%;
             display: flex;
@@ -28,7 +32,7 @@
                 background-color: $secondary-color;
                 border: none;
                 outline: none;
-                width: 80px;
+                width: 90px;
                 height: 50px;
                 font-size: $title;
             }
@@ -68,6 +72,8 @@
                 label, p, input, select, textarea{
                     font-size: $title;
                 }
+
+
     
                 .msg{
                     
@@ -87,7 +93,7 @@
                     padding-right: 10px;
                     padding-left: 10px;
                     
-                    div, .input-field{
+                    div, .input-field, .input-date{
                         display: flex;
                         width: 200px;
                     }
@@ -105,7 +111,7 @@
                         text-align: center;
                     }
     
-                    input[type="number"], .input-date{
+                    input[type="number"]{
                         width: 120px;
                     }
     
@@ -131,6 +137,52 @@
                 .input{
                     flex-direction: row;
                     justify-content: space-between;
+                }
+            }
+
+            .images{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+                column-gap: 10px;
+                row-gap: 10px;
+        
+                div{
+                    position: relative;
+                    width: 100%;
+                    overflow: hidden;
+                    margin-bottom: 30px;
+                    &::after{
+                        content: "";
+                        display: block;
+                        padding-bottom: 100%;
+                    }
+                    img{
+                        position: absolute;
+                        background-color: $tile-color;
+                        width: 100%;
+                        
+                    }
+                }
+            }
+
+            .add-images{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                
+                button{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: $secondary-color;
+                    border: none;
+                    border-radius: 5px;
+                    outline: none;
+                    width: 140px;
+                    height: 50px;
+                    font-size: $title;
                 }
             }
 

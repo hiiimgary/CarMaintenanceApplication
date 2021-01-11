@@ -10,10 +10,44 @@ import { CarService } from 'src/app/services/car.service';
 })
 export class RefillsComponent implements OnInit {
   car: Car;
+  years: string[] = [];
+  longConsumption: number;
   constructor(private carService: CarService, private router: Router) { }
 
   ngOnInit(): void {
     this.carService.activeCar.subscribe(car => this.car = car);
+    for(let i = 0; i < this.car.refueling.length; i++){
+      let d = new Date(this.car.refueling[i].date)
+      this.years.push(d.getFullYear().toString());
+    }
+    let yearSet = new Set(this.years);
+    this.years = [...yearSet];
+    
+    this.calculateLongTermConsumption();
+  }
+
+  calculateLongTermConsumption(){
+    let amount = 0;
+    let distance = this.car.refueling[0].mileage - this.car.refueling[this.car.refueling.length-1].mileage;
+    for(let i = 0; i < this.car.refueling.length - 1; i++){
+      amount += this.car.refueling[i].amount;
+    }
+    this.longConsumption = amount / distance * 100;
+    this.longConsumption = Math.round((this.longConsumption + Number.EPSILON) * 10) / 10;
+  }
+
+
+  getYear(date: Date){
+    let d = new Date(date);
+    return d.getFullYear().toString();
+  }
+
+  getMileage(index: number): number{
+    if(this.car.refueling.length > index){
+      return this.car.refueling[index].mileage;
+    } else {
+      return null;
+    }
   }
 
   navigateTo(url: string){

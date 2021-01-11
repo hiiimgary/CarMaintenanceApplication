@@ -13,7 +13,7 @@
     <section class="properties" *ngIf="isOpen">
         <div>
             <p class="property">PURCHASE DATE</p>
-            <p class="data">{{ toll.purchase_date }}</p>
+            <p class="data">{{ toll.purchase_date | date:'yyyy.MM.dd'}}</p>
         </div>
         <div>
             <p class="property">EXPIRATION</p>

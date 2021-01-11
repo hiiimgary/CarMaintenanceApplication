@@ -17,13 +17,14 @@ export interface Car {
 
 export interface Fuel {
     _id: string;
-    date: string;
+    date: Date;
     station: string;
     type: FuelType;
     amount: number;
     price: number;
     currency: Currency;
     mileage: number;
+    bill: string;
 }
 
 export enum FuelType {
@@ -34,8 +35,9 @@ export enum FuelType {
 export interface Repair{
     _id: string;
     diy: boolean;
-    date: string;
+    date: Date;
     mileage: number;
+    bills?: string[];
     service?: Service;
     parts?: Part[];
 }
@@ -63,7 +65,7 @@ export enum Currency {
 
 export interface Toll {
     _id: string;
-    purchase_date: string;
+    purchase_date: Date;
     expiration: string;
     duration: string;
     region: string;
@@ -74,7 +76,7 @@ export interface Insurance {
     _id: string;
     service_provider: string;
     type: InsuranceType;
-    first_deadline: string;
+    first_deadline: Date;
     interval: Interval;
     bonus_malus?: string;
     fee: number;

@@ -20,11 +20,12 @@ textarea{
 }
 
 #years, #months, #days {
-    width: 55px;
+    width: 30%;
+    margin-left: 5px;
 }
 
 #interval{
-    width: 200px;
+    width: 140px;
     display: flex;
     justify-content: space-between;
 }
