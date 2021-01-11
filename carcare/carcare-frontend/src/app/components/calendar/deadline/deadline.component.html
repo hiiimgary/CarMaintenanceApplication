@@ -1,0 +1,37 @@
+<main class="elements_wrapper">
+    <section class="header" >
+        <div>
+            <h2>{{ deadline.deadline | date:'yyyy.MM.dd' }}</h2>
+            <p>{{ deadline.title }}</p>
+            <p *ngIf="deadline.status == 'Pending'" class="pending">{{ deadline.status }}</p>
+            <p *ngIf="deadline.status == 'Done'" class="done">{{ deadline.status }}</p>
+            <p *ngIf="deadline.status == 'Past Due'" class="past-due">{{ deadline.status }}</p>
+        </div>
+
+
+        
+        <svg (click)="open()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M9.29 15.88L13.17 12 9.29 8.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3c-.39.39-1.02.39-1.41 0-.38-.39-.39-1.03 0-1.42z"/></svg>
+    </section>
+    <section class="properties" *ngIf="isOpen">
+        <div *ngIf="deadline.description">
+            <p class="property">DESCRIPTION</p>
+            <p class="data">{{ deadline.description }}</p>
+        </div>
+        <div>
+            <p class="property">PRICE</p>
+            <p class="data">{{ deadline.price }} {{deadline.currency}}</p>
+        </div>
+        <div *ngIf="deadline.repeating">
+            <p class="property">REPEATING</p>
+            <p class="data">{{ repeatInterval }}</p>
+        </div>
+        <div class="btns">
+            <button class="add-photo">Add Photo</button>
+            <button class="mark-done" *ngIf="deadline.status != 'Done'" (click)="markDone()">Mark Done</button>
+        </div>
+        <div class="icons">
+            <svg (click)="delete()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </div>
+
+    </section>
+</main>

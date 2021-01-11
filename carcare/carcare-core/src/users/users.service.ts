@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { timeStamp } from 'console';
 import { Model } from 'mongoose';
 import { CarPictures, Picture, UserPictures } from 'src/models/pictures.model';
-import { Car, CarDTO, Fuel, FuelDTO, Insurance, InsuranceDTO, Repair, RepairDTO, Toll, TollDTO, User } from '../models/user.model';
+import { Car, CarDTO, Deadline, DeadlineDTO, DeadlineStatus, Fuel, FuelDTO, Insurance, InsuranceDTO, Repair, RepairDTO, Toll, TollDTO, User } from '../models/user.model';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +15,7 @@ export class UsersService {
     @InjectModel('Repair') private readonly RepairModel: Model<Repair>,
     @InjectModel('Toll') private readonly TollModel: Model<Toll>,
     @InjectModel('Insurance') private readonly InsuranceModel: Model<Insurance>,
+    @InjectModel('Deadline') private readonly DeadlineModel: Model<Deadline>,
     @InjectModel('UserPictures') private readonly userPicturesModel: Model<UserPictures>,
     @InjectModel('CarPictures') private readonly carPicturesModel: Model<CarPictures>) { }
 
@@ -238,6 +239,70 @@ export class UsersService {
     return HttpStatus.OK;
   }
 
+  async addDeadline(user: any, car_id: string, deadline: DeadlineDTO) {
+    const actualUser = await this.findUsername(user.username);
+    const newDeadline = new this.DeadlineModel({
+      deadline: deadline.deadline,
+      title: deadline.title,
+      description: deadline.description,
+      status: deadline.status,
+      price: deadline.price,
+      currency: deadline.currency,
+      repeating: deadline.repeating,
+      days: deadline.days,
+      months: deadline.months,
+      years: deadline.years
+    });
+    var actualCar = actualUser.cars.find(car => car._id == car_id);
+
+    if (actualCar.calendar == null || actualCar.calendar == undefined) {
+      actualCar.calendar = [];
+    }
+
+    actualCar.calendar.push(newDeadline);
+    actualCar.calendar.sort((a, b) => {
+      let d1 = new Date(a.deadline); let d2 = new Date(b.deadline);
+      let same = d1.getTime() === d2.getTime();
+      if (same) return 0;
+      if (d1 > d2) return 1;
+      if (d1 < d2) return -1;
+    });
+
+    const res = await actualUser.save();
+    var c = res.cars.find(car => car._id == car_id);
+    return newDeadline;
+  }
+
+  async deleteDeadline(user: any, car_id: string, deadline_id: string) {
+    const actualUser = await this.findUsername(user.username);
+    const actualCar = actualUser.cars.find(car => car._id == car_id);
+    if (actualCar == null) {
+      return HttpStatus.BAD_REQUEST;
+    }
+    const deadline = actualCar.calendar.find(deadline => deadline._id == deadline_id);
+    if (deadline == null) {
+      return HttpStatus.BAD_REQUEST;
+    }
+    const del = await deadline.remove();
+    const res = await actualUser.save();
+    return HttpStatus.OK;
+  }
+
+  async markDeadline(user: any, car_id: string, deadline_id: string, status: DeadlineStatus){
+    const actualUser = await this.findUsername(user.username);
+    const actualCar = actualUser.cars.find(car => car._id == car_id);
+    if (actualCar == null) {
+      return HttpStatus.BAD_REQUEST;
+    }
+    const deadline = actualCar.calendar.find(deadline => deadline._id == deadline_id);
+    if (deadline == null) {
+      return HttpStatus.BAD_REQUEST;
+    }
+    deadline.status = status;
+    const res = await actualUser.save();
+    return HttpStatus.OK;
+  }
+
   async uploadProfilePicture(user: any, picture: string) {
     const actualUser = await this.findUsername(user.username);
     actualUser.profile_picture = picture;
@@ -252,7 +317,7 @@ export class UsersService {
   async carPictures(user: any, car_gallery_id: string) {
     const gallery = await this.getUserGallery(user.username);
     const car = gallery.cars.find(car => car._id == car_gallery_id);
-    if(!car){
+    if (!car) {
       return HttpStatus.BAD_REQUEST;
     } else {
       return car;
@@ -261,7 +326,7 @@ export class UsersService {
 
   async addCarPicture(user: any, car_gallery_id: string, car_id: string, picture: Picture) {
     const userGallery = await this.getUserGallery(user.username);
-    if(!car_gallery_id){
+    if (!car_gallery_id) {
       const newCarGallery = new this.carPicturesModel({
         car_id: car_id,
         pictures: []
